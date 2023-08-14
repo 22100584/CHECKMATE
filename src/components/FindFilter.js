@@ -6,6 +6,9 @@ import Get from "../assets/images/u-exit.png";
 import Together from "../assets/images/u-users-alt.png";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useNavigate } from 'react-router-dom';
+
+const user_name = "김예지";
 
 const PostList = styled.div`
   list-style-type: none;
@@ -57,11 +60,11 @@ const HashTags = styled.div`
   gap: 5px;
   margin-bottom: 5px;
   color: var(--unnamed, #1F1F1F);
-font-family: Pretendard;
-font-size: 10px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+  font-family: Pretendard;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 
 const PostInfo = styled.div`
@@ -97,15 +100,15 @@ const DateWriterInfo = styled.div`
   width:100%;
   justify-content: space-between;
   color: var(--unnamed, #1F1F1F);
-font-family: Pretendard;
-font-size: 10px;
-font-style: normal;
-font-weight: 300;
-line-height: normal;
-margin-top: 5px;
-.date{
-  margin-right:10px;
-}
+  font-family: Pretendard;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  margin-top: 5px;
+  .date{
+    margin-right:10px;
+  }
 
 `;
 const Divider = styled.div`
@@ -119,6 +122,8 @@ const CheckList = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  
+ 
 
 `;
 
@@ -199,12 +204,15 @@ const FindFilterComponent = styled.div`
 
 
 function FindFilter() {
+
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
 
 
   useEffect(() => {
+    console.log(postData.post);
     setPosts(postData.post);
   }, []);
 
@@ -235,8 +243,37 @@ function FindFilter() {
 
 
   const updateCount = (postId, itemId, isChecked) => {
-
+    setPosts((prevPosts) => {
+      const updatedPosts = prevPosts.map((post) => {
+        if (post.postId === postId) {
+          return {
+            ...post,
+            items: post.items.map((item) => {
+              if (item.itemId === itemId) {
+                if (isChecked) {
+                  return {
+                    ...item,
+                    check: [...item.check, user_name],
+                  };
+                } else {
+                  return {
+                    ...item,
+                    check: item.check.filter((name) => name !== user_name),
+                  };
+                }
+              }
+              return item;
+            }),
+          };
+        }
+        return post;
+      });
+  
+      console.log(updatedPosts); // 변경된 데이터를 콘솔에 출력합니다.
+      return updatedPosts;
+    });
   };
+  
   
   const Checkbox = ({ content, itemId, updateCount, count,post, postId }) => {
 
@@ -250,6 +287,7 @@ function FindFilter() {
           border: 1px solid #000;
           outline: none;
           transition: all 0.2s ease-out;
+         
 
           &:checked {
               background-color: #000;
@@ -275,13 +313,14 @@ function FindFilter() {
           display: flex;
           align-items: center;
           gap: 10px;
+          padding-left: 30px;
 `;
 
-const item = post.items.find((i) => i.itemId === itemId);
-const user_name = "김예지";
-const [checked, setChecked] = useState(item.check.includes(user_name));
+  const item = post.items.find((i) => i.itemId === itemId);
+  
+  const [checked, setChecked] = useState(item.check.includes(user_name));
 
- 
+  
 
   const handleChange = () => {
     const newChecked = !checked;
@@ -314,6 +353,8 @@ const CarouselPage = styled.div`
   flex-direction: column;
 `;
 
+
+
 const renderItems = (items, post) => {
   const chunkSize = 4;
   const chunks = [];
@@ -338,12 +379,24 @@ const renderItems = (items, post) => {
     </CarouselPage>
   ));
 };
+
+const handleCarouselClick = (e) => {
+  e.stopPropagation();
+};
   
+const handleFirstLineClick = (post) => (e) => {
+  navigate(`/postpage`, { state: { postId: `${post.postId}` } });
+};
+
+
   const postItems = filteredPosts.map((post) => (
   <PostList key={post.postId}>
+   
+   
     <PostListItem>
-    <FirstLine>
-      <PostInfo>
+    <FirstLine  >
+      <PostInfo onClick={handleFirstLineClick(post)}
+        style={{ cursor: 'pointer' }}>
       <p className="title">{post.title}</p>
       <HashTags>
         {post.hastags.map((hashtag, index) => (
@@ -368,9 +421,10 @@ const renderItems = (items, post) => {
       <p className="date"> {post.date}</p>
       
     </DateWriterInfo>
+    
     <Divider />
     <CheckList>
-        <CarouselContainer>
+        <CarouselContainer onClick={handleCarouselClick}>
           <Carousel showArrows showStatus={false} showThumbs={false}>
             {renderItems(post.items, post)}
           </Carousel>
@@ -378,7 +432,7 @@ const renderItems = (items, post) => {
       </CheckList>
     
     </PostListItem>
-
+   
   </PostList>
 ));
 

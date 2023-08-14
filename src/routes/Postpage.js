@@ -2,11 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import AppBar from '../components/AppBar'
 import BackImage from "../assets/images/background.jpeg";
-import FindFilter from "../components//FindFilter";
+import DetailPost from "../components/DetailPost";
+import { useLocation } from 'react-router-dom';
 
-
-function HomePage() {
-  
+function PostPage() {
   
   const BackgroundImage = styled.div`
     width: 100%;
@@ -20,8 +19,10 @@ function HomePage() {
     left: 0;
     z-index: -1;
   `;
-
-  const HomePage = styled.div`
+const location = useLocation();
+const userInfo = { ...location.state };
+console.log(userInfo.postId);
+  const PostPage = styled.div`
     @font-face {
       font-family: 'Pretendard-Regular';
       src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
@@ -30,24 +31,22 @@ function HomePage() {
     }
     background-color: white;
     width: 375px;
-    height: 100%;
+    height: 100vh;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    padding-left: 20px;
-    padding-right: 20px;
   `;
   
   return (
     <>
       <BackgroundImage />
-      <HomePage>
+      <PostPage>
         <AppBar />
-        <FindFilter />
-      
-      </HomePage>
+       <DetailPost Id={userInfo.postId}/>
+      </PostPage>
     </>
   );
 }
 
-export default HomePage;
+
+export default PostPage;
