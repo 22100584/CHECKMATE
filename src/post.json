@@ -16,77 +16,56 @@
             "scope": 1, 
             "items":[
                 {
-                    "category": "카테고리",
+                    "category": "로맨스",
                     "itemId": 1,
                     "content": "어바웃타임",
                     "count": 153,
                     "check": ["이창건","이인혁"]
                 },
                 {
-                    "category": "카테고리",
+                    "category": "로맨스",
                     "itemId": 2,
                     "content": "노트북",
                     "count": 153,
                     "check": ["이창건","이인혁"]
                 },
                 {
-                    "category": "카테고리",
+                    "category": "로맨스",
                     "itemId": 3,
-                    "content": "항목 내용",
+                    "content": "말할 수 없는 비밀",
                     "count": 153,
                     "check": ["이창건","이인혁"]
                 },
                 {
-                    "category": "카테고리",
+                    "category": "로맨스",
                     "itemId": 4,
-                    "content": "항목 내용",
+                    "content": "세븐틴어게인",
                     "count": 153,
                     "check": ["이창건","이인혁"]
                 }
                 ,
                 {
-                    "category": "카테고리",
+                    "category": "액션",
                     "itemId": 5,
-                    "content": "항목 내용",
+                    "content": "어벤져스",
                     "count": 153,
                     "check": ["이창건","이인혁"]
                 }
                 ,
                 {
-                    "category": "카테고리",
-                    "itemId": 5,
-                    "content": "항목 내용",
+                    "category": "액션",
+                    "itemId": 6,
+                    "content": "존윅4",
                     "count": 153,
                     "check": ["이창건","이인혁"]
                 } ,
                 {
-                    "category": "카테고리",
-                    "itemId": 5,
-                    "content": "항목 내용",
+                    "category": "액션",
+                    "itemId": 7,
+                    "content": "미션임파서블",
                     "count": 153,
                     "check": ["이창건","이인혁"]
-                } ,
-                {
-                    "category": "카테고리",
-                    "itemId": 5,
-                    "content": "항목 내용",
-                    "count": 153,
-                    "check": ["이창건","이인혁"]
-                } ,
-                {
-                    "category": "카테고리",
-                    "itemId": 5,
-                    "content": "항목 내용",
-                    "count": 153,
-                    "check": ["이창건","이인혁"]
-                } ,
-                {
-                    "category": "카테고리",
-                    "itemId": 5,
-                    "content": "항목 내용",
-                    "count": 153,
-                    "check": ["이창건","이인혁"]
-                }
+                } 
             ]
         },
         {
@@ -130,6 +109,160 @@
         }, {
             "postId": 2,
             "title": "영화 명작 200선",
+            "hastags": [
+                "영화",
+                "추천",
+                "100선",
+                "국제"
+            ],
+            "date": "2023.05.25",
+            "together": 10,
+            "get": 20,
+            "writer": "한동미",
+            "scope": 1, 
+            "items":[
+                {
+                    "category": "카테고리",
+                    "itemId": 1,
+                    "content": "어바웃타임",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                },
+                {
+                    "category": "카테고리",
+                    "itemId": 2,
+                    "content": "노트북",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                },
+                {
+                    "category": "카테고리",
+                    "itemId": 3,
+                    "content": "항목 내용",
+                    "count": 153,
+                    "check": ["이창건","이인혁","김예지","박은서"]
+                }
+
+            ]
+        },
+        {
+            "postId": 2,
+            "title": "영화 명작 200선",
+            "hastags": [
+                "영화",
+                "추천",
+                "100선",
+                "국제"
+            ],
+            "date": "2023.05.25",
+            "together": 10,
+            "get": 20,
+            "writer": "한동미",
+            "scope": 1, 
+            "items":[
+                {
+                    "category": "카테고리",
+                    "itemId": 1,
+                    "content": "어바웃타임",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                },
+                {
+                    "category": "카테고리",
+                    "itemId": 2,
+                    "content": "노트북",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                },
+                {
+                    "category": "카테고리",
+                    "itemId": 3,
+                    "content": "항목 내용",
+                    "count": 153,
+                    "check": ["이창건","이인혁","김예지","박은서"]
+                }
+
+            ]
+        }, {
+            "postId": 3,
+            "title": "영화 명작 200선",
+            "hastags": [
+                "영화",
+                "추천",
+                "100선",
+                "국제"
+            ],
+            "date": "2023.05.25",
+            "together": 10,
+            "get": 20,
+            "writer": "한동미",
+            "scope": 1, 
+            "items":[
+                {
+                    "category": "카테고리",
+                    "itemId": 1,
+                    "content": "어바웃타임",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                },
+                {
+                    "category": "카테고리",
+                    "itemId": 2,
+                    "content": "노트북",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                },
+                {
+                    "category": "카테고리",
+                    "itemId": 3,
+                    "content": "항목 내용",
+                    "count": 153,
+                    "check": ["이창건","이인혁","김예지","박은서"]
+                }
+
+            ]
+        },
+        {
+            "postId": 2,
+            "title": "영화 명작 300선",
+            "hastags": [
+                "영화",
+                "추천",
+                "100선",
+                "국제"
+            ],
+            "date": "2023.05.25",
+            "together": 10,
+            "get": 20,
+            "writer": "한동미",
+            "scope": 1, 
+            "items":[
+                {
+                    "category": "카테고리",
+                    "itemId": 1,
+                    "content": "어바웃타임",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                },
+                {
+                    "category": "카테고리",
+                    "itemId": 2,
+                    "content": "노트북",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                },
+                {
+                    "category": "카테고리",
+                    "itemId": 3,
+                    "content": "항목 내용",
+                    "count": 153,
+                    "check": ["이창건","이인혁","김예지","박은서"]
+                }
+
+            ]
+        }, {
+            "postId": 4,
+            "title": "영화 명작 400선",
             "hastags": [
                 "영화",
                 "추천",

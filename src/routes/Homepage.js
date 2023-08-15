@@ -30,12 +30,13 @@ function HomePage() {
     }
     background-color: white;
     width: 375px;
-    height: 100%;
+    height: 100vh;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
     padding-left: 20px;
-    padding-right: 20px;
+    padding-right: 20px; 
+    overflow-y: scroll; 
   `;
   
   return (

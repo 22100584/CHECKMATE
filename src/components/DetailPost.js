@@ -8,12 +8,47 @@ import PropTypes from "prop-types";
 
 
 const user_name = "김예지";
+
+const StyledCheckbox = styled.input`
+          appearance: none;
+          background: #ffffff;
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          border: 1px solid #000;
+          outline: none;
+          transition: all 0.2s ease-out;
+          justify-content: center;
+                align-items: center;
+         
+
+          &:checked {
+              background-color: #000;
+              box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+             
+            }
+
+          &:checked:after {
+                content: "\\2713"; // 체크 표시 (유니코드)
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: black;
+                font-size: 20px;
+                font-weight: bold;
+                border-radius: 50%;
+                width: 100%;
+                height: 100%;
+                background-color: #fff;
+              }
+          `;
     const PostList = styled.div`
     list-style-type: none;
    
     flex-direction: column;
     width :100%;
-     height: 90vh; // 창 높이에 대한 상대 단위를 사용하세요
+    height: 90vh; // 창 높이에 대한 상대 단위를 사용하세요
     overflow-y: auto; // 목록이 창보다 길 경우 스크롤바가 표시되
   `;
   
@@ -28,7 +63,7 @@ const user_name = "김예지";
     width: 100%;
     height:100%;
     flex-shrink: 0;
-    background: #D9C7E7;
+    background: #EAD0FF;
   
     
   
@@ -143,25 +178,39 @@ const user_name = "김예지";
   `;
 
 const AddItemInput = styled.input`
-width: 100%;
-padding: 10px;
-border: 1px solid #ccc;
-border-radius: 4px;
-box-sizing: border-box;
-margin-bottom: 10px;
+  width: 100%;
+
+  border: 1px solid #EAD0FF;
+  border-radius: 4px;
+  box-sizing: border-box;
+ 
+  background: #EAD0FF;
+  &:focus {
+    outline: none;
+    border: 1px solid #EAD0FF;
+  }
 `;
 
-const AddItemButton = styled.button`
-background-color: #4caf50;
-border: none;
-color: white;
-padding: 10px 20px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-cursor: pointer;
+const InputContainer = styled.div`
+  display: flex;
+  width:100%;
+  gap: 10px; // 체크박스와 입력 필드 사이에 간격을 줍니다.
 `;
+
+
+const Category = styled.div`
+color: #000;
+
+font-family: Pretendard;
+font-size: 17px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+margin-top:30px;
+margin-bottom: 14px;
+padding-left:5px;
+`;
+
   
 
 
@@ -187,35 +236,30 @@ useEffect(() => {
 }, [postWithId]);
 
   
-  
-const [newItemContent, setNewItemContent] = useState("");
+const [newItemContent, setNewItemContent] = useState({});
 
-const handleAddItem = () => {
-    
-    if (newItemContent === "") return;
-    
+
+const handleAddItem = (category) => {
+    if (!newItemContent[category]) return;
+  
     setPosts((prevPosts) => {
-        
       return prevPosts.map((post) => {
-        // post.postId === Id를 post.postId === parsedId로 변경합니다.
         if (post.postId === parsedId) {
           const newItem = {
-            category: "카테고리",
+            category,
             itemId: Date.now(),
-            content: newItemContent,
+            content: newItemContent[category],
             count: 153,
             check: [],
           };
-          
-          // 새로운 항목이 추가된 post를 생성합니다.
+  
           const updatedPost = {
             ...post,
             items: [...post.items, newItem],
           };
-          
-          // 새로운 항목이 추가된 post를 출력합니다.
+  
           console.log("새로운 항목이 추가된 post: ", updatedPost);
-          
+  
           return updatedPost;
         }
   
@@ -223,26 +267,28 @@ const handleAddItem = () => {
       });
     });
   
-    setNewItemContent("");
+    setNewItemContent((prevState) => ({
+      ...prevState,
+      [category]: "",
+    }));
   };
+  
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') { // 메서드가 타겟 이벤트 키를 감지했을 때 조건을 만족 시킵니다
-      handleAddItem(); // 항목을 추가합니다
+  const handleInputChange = (e, category) => {
+    setNewItemContent((prevState) => ({
+      ...prevState,
+      [category]: e.target.value,
+    }));
+  };
+  
+  const handleKeyPress = (e, category) => {
+    if (e.key === "Enter") {
+      handleAddItem(category);
     }
   };
   
-  
-  // input 필드의 내용이 변경되면 실행되는 함수
-  const handleInputChange = (e) => {
-      setNewItemContent(e.target.value);
-      console.log(e.target.value);
-  };
-
-  
 
  
-
 
 const updateCount = (postId, itemId, isChecked) => {
     setPosts((prevPosts) => {
@@ -280,49 +326,30 @@ const updateCount = (postId, itemId, isChecked) => {
   
   const Checkbox = ({ content, itemId, updateCount, count,post, postId }) => {
 
-    const StyledCheckbox = styled.input`
-          appearance: none;
-          background: #ffffff;
-          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          border: 1px solid #000;
-          outline: none;
-          transition: all 0.2s ease-out;
-         
+    
 
-          &:checked {
-              background-color: #000;
-              box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
-            }
+    const Label = styled.label`
+        display: flex;
+        align-items: center;
+        gap: 10px; // 체크카운트와 내용 사이의 기본 간격.
+        width: 339px;
+        height: 30px;
+        margin-bottom: 10px;
+        `;
 
-          &:checked:after {
-                content: "\\2713"; // 체크 표시 (유니코드)
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                color: black;
-                font-size: 20px;
-                font-weight: bold;
-                border-radius: 50%;
-                width: 100%;
-                height: 100%;
-                background-color: #fff;
-              }
-          `;
+    const Content = styled.span`
 
-          const Label = styled.label`
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          justify-content: space-between; // 여기에 추가합니다
-  width: 100%; // 여기에 추가합니다
-          
-`;
-const CheckCount = styled.span`
-  margin-right: 5px;
-`;
+    flex-grow: 1; // 여기에 추가하여 내용이 가능한 최대한의 공간을 차지하게 합니다.
+    `;
+
+    const CheckCount = styled.span`
+    margin-right: 5px;
+    font-size:10px;
+    `;
+
+
+
+
 
 
 
@@ -342,9 +369,9 @@ const CheckCount = styled.span`
         <Label>
         <div>
           <StyledCheckbox type="checkbox" checked={checked} onChange={handleChange} />
-          {content}
         </div>
-        <CheckCount>{item.check.length}</CheckCount>
+      <Content> {content}</Content>
+        <CheckCount>{item.check.length}명이 함께 했어요</CheckCount>
       </Label>
     );
   };
@@ -353,21 +380,60 @@ const CheckCount = styled.span`
 
 
 
-const renderItems = (items, post) => {
-    return items.map((item) => (
-      <Checkbox
-        key={item.itemId}
-        content={item.content}
-        itemId={item.itemId}
-        updateCount={updateCount}
-        count={item.count}
-        post={post}
-        postId={post.postId}
-      />
+// const renderItems = (items, post) => {
+//     return items.map((item) => (
+//       <Checkbox
+//         key={item.itemId}
+//         content={item.content}
+//         itemId={item.itemId}
+//         updateCount={updateCount}
+//         count={item.count}
+//         post={post}
+//         postId={post.postId}
+//       />
+//     ));
+//   };
+  
+const renderItemsByCategory = (items, post) => {
+    // 카테고리별 항목 그룹화
+    const itemsByCategory = items.reduce((acc, item) => {
+      const category = item.category;
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category].push(item);
+      return acc;
+    }, {});
+  
+    // 카테고리별 항목 렌더링
+    return Object.entries(itemsByCategory).map(([category, items]) => (
+      <div key={category}>
+        <Category>{category}</Category>
+        {items.map((item) => (
+          <Checkbox
+            key={item.itemId}
+            content={item.content}
+            itemId={item.itemId}
+            updateCount={updateCount}
+            count={item.count}
+            post={post}
+            postId={post.postId}
+          />
+        ))}
+        <InputContainer>
+          <StyledCheckbox type="checkbox" disabled />
+          <AddItemInput
+            type="text"
+            value={newItemContent[category] || ""}
+            onChange={(e) => handleInputChange(e, category)}
+            onKeyPress={(e) => handleKeyPress(e, category)}
+            placeholder="입력하세요"
+          />
+        </InputContainer>
+      </div>
     ));
   };
   
-
 
 const handleFirstLineClick = (post) => (e) => {
  
@@ -408,16 +474,9 @@ const handleFirstLineClick = (post) => (e) => {
     </DateWriterInfo>
     
     <Divider />
-    <CheckList>
-            {renderItems(post.items, post)}
-    </CheckList>
-    <AddItemInput
-  type="text"
-  value={newItemContent}
-  onChange={handleInputChange}
-  onKeyPress={handleKeyPress} // 키보드 이벤트를 추가합니다
-  placeholder="새로운 할 일을 입력하세요."
-/>
+    <CheckList>{renderItemsByCategory(post.items, post)}</CheckList>
+
+    
      
     </PostListItem>
    
@@ -429,6 +488,7 @@ const handleFirstLineClick = (post) => (e) => {
   return (
     <DetailPostComponent>
       <PostList>{postItems}</PostList>
+      
     </DetailPostComponent>
   );
 }
