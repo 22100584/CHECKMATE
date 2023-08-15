@@ -10,10 +10,36 @@ import { useNavigate } from 'react-router-dom';
 
 const user_name = "김예지";
 
+const FloatingActionButton = styled.button`
+  position: fixed; 
+  bottom:10vh;
+  right: 20px;
+  width: 87px; 
+  height: 36px; 
+  border-radius: 80px;
+  background: #BC66FF;
+  border: none;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+`;
+
+const FloatingActionButtonIcon = styled.i`
+  color: #000;
+  font-size: 14px; // 이 부분 수정
+`;
+
+
+
 const PostList = styled.div`
   list-style-type: none;
   margin-top: 20px;
   flex-direction: column;
+  overflow-y: scroll;
+  max-height: 80vh; // 높이는 필요에 따라 조절 가능합니다.
 `;
 
 const PostListItem = styled.div`
@@ -27,9 +53,10 @@ const PostListItem = styled.div`
   width: 355px;
   height:auto;
   flex-shrink: 0;
-  border-radius: 6px;background: #D9C7E7;
-  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.12);
-  
+  border: 1px solid #1F1F1F;
+  border-radius: 6px;
+  background: white;
+
 
 .title{
   color: #000;
@@ -122,6 +149,8 @@ const CheckList = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  margin-top: 5px;
+  margin-bottom:5px;
   
  
 
@@ -154,7 +183,7 @@ const FindFilterComponent = styled.div`
     padding: 8px 12px;
     padding-left: 35px;
     overflow: hidden;
-    color: var(--labels-secondary, rgba(60, 60, 67, 0.60));
+color: var(--labels-secondary, rgba(60, 60, 67, 0.60));
     text-overflow: ellipsis;
     font-family: Pretendard;
     font-size: 17px;
@@ -162,10 +191,14 @@ const FindFilterComponent = styled.div`
     font-weight: 400;
     line-height: 22px; /* 129.412% */
     letter-spacing: -0.4px;
-    background-color: #FDFAFF;
+  
     border: none;
-
+    border-radius: 10px;
+background: #F2F2F2;
     width: 260px;
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.12);
+
+
   }
 
   .SearchIcon {
@@ -190,9 +223,9 @@ const FindFilterComponent = styled.div`
     color: var(--labels-secondary, rgba(60, 60, 67, 0.60));
     border: none;
     border-radius: 10px;
-    background: #FFF;
-    /* 효과 */
-    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.12);
+background: #F2F2F2;
+/* 효과 */
+box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.12);
     cursor: pointer;
 
     &:hover {
@@ -209,6 +242,9 @@ function FindFilter() {
   const [search, setSearch] = useState("");
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
+ 
+
+  
 
 
   useEffect(() => {
@@ -334,7 +370,7 @@ function FindFilter() {
         checked={checked}
         onChange={handleChange}
       />
-      {content} {item.check.length}
+      {content} 
     </Label>
     );
   };
@@ -421,7 +457,6 @@ const handleFirstLineClick = (post) => (e) => {
       <p className="date"> {post.date}</p>
       
     </DateWriterInfo>
-    
     <Divider />
     <CheckList>
         <CarouselContainer onClick={handleCarouselClick}>
@@ -435,6 +470,14 @@ const handleFirstLineClick = (post) => (e) => {
    
   </PostList>
 ));
+
+
+
+const handleFabClick = () => {
+  console.log("Floating Action Button clicked");
+  navigate("/addpostpage");
+};
+
 
 
 
@@ -456,6 +499,25 @@ const handleFirstLineClick = (post) => (e) => {
         </button>
       </div>
       <PostList>{postItems}</PostList>
+      <FloatingActionButton onClick={handleFabClick}>
+				<FloatingActionButtonIcon  >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+  <line x1="6.87217" y1="2.84123e-08" x2="6.87217" y2="14" stroke="black" stroke-width="1.3"/>
+  <line x1="14" y1="6.87217" x2="-5.68248e-08" y2="6.87217" stroke="black" stroke-width="1.3"/>
+</svg>
+        </FloatingActionButtonIcon>
+        
+				<span
+					style={{
+						marginLeft: '10px',
+						lineHeight: '14px',
+						fontSize: '10px',
+						flexShrink: 0,
+					}}
+				>
+					 글쓰기
+				</span>
+			</FloatingActionButton>
     </FindFilterComponent>
   );
 }
