@@ -322,8 +322,75 @@ const updateCount = (postId, itemId, isChecked) => {
     });
     
   };
+
+  const [newCategory, setNewCategory] = useState("");
+const [showCategoryInput, setShowCategoryInput] = useState(false);
   
+const FloatingActionButton = styled.button`
+position: fixed; 
+  bottom:10vh;
+  right: 20px;
+  width: 87px; 
+  height: 36px; 
+  border-radius: 80px;
+  background: #BC66FF;
+  border: none;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+`;
+
+const CategoryInputContainer = styled.div`
+display: flex;
+width: 100%;
+gap: 10px;
+flex-direction: column;
+
+`;
+
   
+
+
+  const handleAddItemWithCategory = () => {
+    if (!newCategory || !newItemContent["새 항목"]) return;
+  
+    setPosts((prevPosts) => {
+      return prevPosts.map((post) => {
+        if (post.postId === parsedId) {
+          const newItem = {
+            category: newCategory,
+            itemId: Date.now(),
+            content: newItemContent["새 항목"],
+            count: 153,
+            check: [],
+          };
+  
+          const updatedPost = {
+            ...post,
+            items: [...post.items, newItem],
+          };
+  
+          console.log("새로운 항목이 추가된 post: ", updatedPost);
+  
+          return updatedPost;
+        }
+  
+        return post;
+      });
+    });
+  
+    setNewItemContent((prevState) => ({
+      ...prevState,
+      ["새 항목"]: "",
+    }));
+    setNewCategory(""); // 카테고리 입력 필드를 비웁니다
+    setShowCategoryInput(false); // 입력 필드 숨김
+  };
+  
+
   const Checkbox = ({ content, itemId, updateCount, count,post, postId }) => {
 
     
@@ -375,24 +442,6 @@ const updateCount = (postId, itemId, isChecked) => {
       </Label>
     );
   };
-
-
-
-
-
-// const renderItems = (items, post) => {
-//     return items.map((item) => (
-//       <Checkbox
-//         key={item.itemId}
-//         content={item.content}
-//         itemId={item.itemId}
-//         updateCount={updateCount}
-//         count={item.count}
-//         post={post}
-//         postId={post.postId}
-//       />
-//     ));
-//   };
   
 const renderItemsByCategory = (items, post) => {
     // 카테고리별 항목 그룹화
@@ -430,7 +479,9 @@ const renderItemsByCategory = (items, post) => {
             placeholder="입력하세요"
           />
         </InputContainer>
+        
       </div>
+      
     ));
   };
   
@@ -477,9 +528,27 @@ const handleFirstLineClick = (post) => (e) => {
     <CheckList>{renderItemsByCategory(post.items, post)}</CheckList>
 
     
-     
+    {showCategoryInput && (
+  <CategoryInputContainer>
+    <AddItemInput
+      type="text"
+      autocomplete="off"
+      value={newCategory}
+      onChange={(e) => setNewCategory(e.target.value)}
+      placeholder="새로운 카테고리"
+    />
+    <AddItemInput
+      type="text"
+      autocomplete="off"
+      value={newItemContent["새 항목"] || ""}
+      onChange={(e) => handleInputChange(e, "새 항목")}
+      placeholder="새로운 항목"
+    />
+    <button onClick={handleAddItemWithCategory}>항목 추가</button>
+  </CategoryInputContainer>
+)}
+
     </PostListItem>
-   
   </PostList>
 ));
 
@@ -488,7 +557,8 @@ const handleFirstLineClick = (post) => (e) => {
   return (
     <DetailPostComponent>
       <PostList>{postItems}</PostList>
-      
+      <FloatingActionButton onClick={() => setShowCategoryInput(true)}>카테고리 추가</FloatingActionButton>
+
     </DetailPostComponent>
   );
 }

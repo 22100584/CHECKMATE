@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 import BackImage from "../assets/images/background.jpeg";
+import AppBar from "../components/AppBar";
+import AddPost from "../components/AddPost";
 
 function AddPostPage() {
   const BackgroundImage = styled.div`
@@ -36,7 +38,8 @@ function AddPostPage() {
     <>
       <BackgroundImage />
       <AddPostPage>
-       
+       <AppBar />
+       <AddPost />
       </AddPostPage>
     </>
   );
