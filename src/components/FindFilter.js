@@ -7,6 +7,10 @@ import Together from "../assets/images/u-users-alt.png";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate } from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+
+
 
 const user_name = "김예지";
 
@@ -161,7 +165,6 @@ const FindFilterComponent = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 18px;
-
   position: relative;
 
   .SearchFilterWrapper {
@@ -239,6 +242,31 @@ function FindFilter() {
   const [search, setSearch] = useState("");
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [scope, setScope] = useState(1);
+
+const DialogStyles = {
+  position: 'absolute',
+  top: 'calc(0% - 430px)',
+  left: 'calc(50% - 160px)',
+ 
+  
+};
+
+const handleFilterScope=(index)=>{
+  setScope(index);
+  handleFilterClose();
+  console.log(scope);
+}
+
+  const handleFilterOpen = () => {
+    setOpen(true);
+  };
+  
+  const handleFilterClose = () => {
+    setOpen(false);
+  };
+  
  
   useEffect(() => {
     console.log(postData.post);
@@ -266,10 +294,7 @@ function FindFilter() {
     useEffect(() => {
       setFilteredPosts(posts);
     }, [posts]);
-  const handleFilterClick = () => {
-    console.log("Filter button clicked");
-  };
-
+  
 
   const updateCount = (postId, itemId, isChecked) => {
     setPosts((prevPosts) => {
@@ -474,6 +499,7 @@ const handleFabClick = () => {
 
 
 
+
   return (
     <FindFilterComponent>
       <div className="SearchFilterWrapper">
@@ -487,7 +513,7 @@ const handleFabClick = () => {
             onChange={onChange}
           />
         </div>
-        <button className="FilterButton" onClick={handleFilterClick}>
+        <button className="FilterButton" onClick={handleFilterOpen}>
           필터
         </button>
       </div>
@@ -511,6 +537,31 @@ const handleFabClick = () => {
 					 글쓰기
 				</span>
 			</FloatingActionButton>
+      <Dialog onClose={handleFilterClose} open={open} position="top" sx={DialogStyles}  PaperProps={{
+    style: {
+      backgroundColor: "#BC66FF",
+      width:'150px',
+      padding: 0,
+    },
+  }}>
+
+      <DialogContent>
+  <div style={{ height: '30px', margin: '0 0 0 5px',}} onClick={() => handleFilterScope(1)}>
+    최신순
+  </div>
+  <Divider sx={{ background: 'white' }} />  
+  <div style={{ height: '30px', margin: '0 0 0 5px' }} onClick={() => handleFilterScope(2)}>
+    가져오기 순
+  </div>
+  <Divider sx={{ background: 'white' }} />  
+  <div style={{ height: '30px', margin: '0 0 0 5px' }} onClick={() => handleFilterScope(3)}>
+    함께하기 순
+  </div>
+</DialogContent>
+
+
+</Dialog>
+
     </FindFilterComponent>
   );
 }

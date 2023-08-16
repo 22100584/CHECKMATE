@@ -1,0 +1,146 @@
+{
+    "user":{
+        "image": "String 프로필 이미지",
+        "nickname": "조엘 킴",
+        "follower": 104, 
+        "following":54,
+        "myList": [
+        {
+            "postId": 1,
+            "title": "영화 명작 100선",
+            "hastags": [
+                "영화",
+                "추천",
+                "100선"
+                
+            ],
+            "date": "2023.05.25",
+            "together": 154,
+            "get": 20,
+            "writer": "한동미",
+            "scope": 1, 
+            "items":[
+                {
+                    "category": "로맨스",
+                    "itemId": 1,
+                    "content": "어바웃타임",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                },
+                {
+                    "category": "로맨스",
+                    "itemId": 2,
+                    "content": "노트북",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                },
+                {
+                    "category": "로맨스",
+                    "itemId": 3,
+                    "content": "말할 수 없는 비밀",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                },
+                {
+                    "category": "로맨스",
+                    "itemId": 4,
+                    "content": "세븐틴어게인",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                }
+                ,
+                {
+                    "category": "액션",
+                    "itemId": 5,
+                    "content": "어벤져스",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                }
+                ,
+                {
+                    "category": "액션",
+                    "itemId": 6,
+                    "content": "존윅4",
+                    "count": 153,
+                    "check": ["이창건","이인혁"]
+                } ,
+                {
+                    "category": "액션",
+                    "itemId": 7,
+                    "content": "미션임파서블",
+                    "count": 153
+                   
+                } 
+            ]
+        }
+          ]
+        },
+        
+        "togetherList" : {
+            "postId": 1,
+        "title": "영화 명작 100선",
+        "hastags": [
+            "영화",
+            "추천",
+            "100선"
+            
+        ],
+        "date": "2023.05.25",
+        "together": 154,
+        "get": 20,
+        "writer": "한동미",
+        "scope": 1, 
+        "items":[
+            {
+                "category": "로맨스",
+                "itemId": 1,
+                "content": "어바웃타임",
+                "count": 153
+                
+            },
+            {
+                "category": "로맨스",
+                "itemId": 2,
+                "content": "노트북",
+                "count": 153
+               
+            },
+            {
+                "category": "로맨스",
+                "itemId": 3,
+                "content": "말할 수 없는 비밀",
+                "count": 153
+            },
+            {
+                "category": "로맨스",
+                "itemId": 4,
+                "content": "세븐틴어게인",
+                "count": 153
+            }
+            ,
+            {
+                "category": "액션",
+                "itemId": 5,
+                "content": "어벤져스",
+                "count": 153
+            }
+            ,
+            {
+                "category": "액션",
+                "itemId": 6,
+                "content": "존윅4",
+                "count": 153
+            } ,
+            {
+                "category": "액션",
+                "itemId": 7,
+                "content": "미션임파서블",
+                "count": 153
+            } 
+        ]
+    }
+        }
+        
+        
+
+    
