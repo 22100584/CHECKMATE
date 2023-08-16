@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-
+import MyBar from "../components/MyBar";
 import BackImage from "../assets/images/background.jpeg";
+import MyPost from "../components/MyPost";
 
 function MyPage() {
   const BackgroundImage = styled.div`
@@ -15,6 +16,7 @@ function MyPage() {
     top: 0;
     left: 0;
     z-index: -1;
+    
   `;
 
   const MyPage = styled.div`
@@ -26,19 +28,22 @@ function MyPage() {
     }
     background-color: white;
     width: 375px;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+    
   `;
   
   return (
-    <>
-      <BackgroundImage />
+   
       <MyPage>
-       
+          <MyBar />
+          <MyPost />
+
       </MyPage>
-    </>
+   
   );
 }
 

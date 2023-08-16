@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import AppBar from '../components/AppBar'
+
 import BackImage from "../assets/images/background.jpeg";
-import FindFilter from "../components//FindFilter";
+import AppBar from "../components/AppBar";
+import AddPost from "../components/AddPost";
 
+function AddPostPage() {
+ 
 
-function HomePage() {
-  
-  const HomePage = styled.div`
+  const AddPostPage = styled.div`
     @font-face {
       font-family: 'Pretendard-Regular';
       src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
@@ -20,21 +21,15 @@ function HomePage() {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    padding-left: 20px;
-    padding-right: 20px; 
-    overflow-y: scroll; 
   `;
   
   return (
-   
-   
-      <HomePage>
-        <AppBar />
-        <FindFilter />
-      
-      </HomePage>
-   
+
+      <AddPostPage>
+       <AppBar />
+       <AddPost />
+      </AddPostPage>
   );
 }
 
-export default HomePage;
+export default AddPostPage;
