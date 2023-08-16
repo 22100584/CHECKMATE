@@ -43,14 +43,15 @@ const StyledCheckbox = styled.input`
                 background-color: #fff;
               }
           `;
-    const PostList = styled.div`
-    list-style-type: none;
+   const PostList = styled.div`
+   list-style-type: none;
+   flex-direction: column;
+   width: 100%;
    
-    flex-direction: column;
-    width :100%;
-    height: 90vh; // 창 높이에 대한 상대 단위를 사용하세요
-    overflow-y: auto; // 목록이 창보다 길 경우 스크롤바가 표시되
-  `;
+   min-height: 90vh;
+  
+   overflow-y: auto; 
+ `;
   
   const PostListItem = styled.div`
     display: flex;
@@ -61,9 +62,10 @@ const StyledCheckbox = styled.input`
     padding: 18px;
     box-sizing: border-box;
     width: 100%;
-    height:100%;
+    min-height: 90vh;
     flex-shrink: 0;
     background: #EAD0FF;
+    padding-bottom:100px;
   
     
   
@@ -180,16 +182,18 @@ const StyledCheckbox = styled.input`
 const AddItemInput = styled.input`
   width: 100%;
 
-  border: 1px solid #EAD0FF;
+  border: none;
   border-radius: 4px;
   box-sizing: border-box;
  
   background: #EAD0FF;
   &:focus {
     outline: none;
-    border: 1px solid #EAD0FF;
+    border:none
   }
 `;
+
+
 
 const InputContainer = styled.div`
   display: flex;
@@ -200,7 +204,6 @@ const InputContainer = styled.div`
 
 const Category = styled.div`
 color: #000;
-
 font-family: Pretendard;
 font-size: 17px;
 font-style: normal;
@@ -211,16 +214,41 @@ margin-bottom: 14px;
 padding-left:5px;
 `;
 
+const CategoryInputContainer = styled.div`
+display: flex;
+width: 100%;
+gap: 10px;
+flex-direction: column;
+
+`;
+
+const AddCategoryInput = styled.input`
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: Pretendard;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  color: #000;
+  background: #EAD0FF;
+  padding-top:30px;
+  &:focus {
+    outline: none;
+    border:none
+  }
+`;
+
   
 
 
 
 function DetailPost({Id}) {
-    const findPostById = (postId) => {
-    
- 
-        const post = postData.post.find((post) => post.postId === postId);
-        return post;
+  const findPostById = (postId) => {
+      const post = postData.post.find((post) => post.postId === postId);
+      return post;
       };
     
     const parsedId = parseInt(Id, 10); // ID 값이 Intdu
@@ -230,48 +258,48 @@ function DetailPost({Id}) {
   
   const [posts, setPosts] = useState([]); // 초기값 변경
 
-useEffect(() => {
-  setPosts([postWithId]);  // 배열로 전달
-  console.log(postWithId);
-}, [postWithId]);
+    useEffect(() => {
+      setPosts([postWithId]);  // 배열로 전달
+      console.log(postWithId);
+    }, [postWithId]);
 
-  
-const [newItemContent, setNewItemContent] = useState({});
+      
+    const [newItemContent, setNewItemContent] = useState({});
 
 
-const handleAddItem = (category) => {
-    if (!newItemContent[category]) return;
-  
-    setPosts((prevPosts) => {
-      return prevPosts.map((post) => {
-        if (post.postId === parsedId) {
-          const newItem = {
-            category,
-            itemId: Date.now(),
-            content: newItemContent[category],
-            count: 153,
-            check: [],
-          };
-  
-          const updatedPost = {
-            ...post,
-            items: [...post.items, newItem],
-          };
-  
-          console.log("새로운 항목이 추가된 post: ", updatedPost);
-  
-          return updatedPost;
-        }
-  
-        return post;
-      });
-    });
-  
-    setNewItemContent((prevState) => ({
-      ...prevState,
-      [category]: "",
-    }));
-  };
+    const handleAddItem = (category) => {
+        if (!newItemContent[category]) return;
+      
+        setPosts((prevPosts) => {
+          return prevPosts.map((post) => {
+            if (post.postId === parsedId) {
+              const newItem = {
+                category,
+                itemId: Date.now(),
+                content: newItemContent[category],
+                count: 153,
+                check: [],
+              };
+      
+              const updatedPost = {
+                ...post,
+                items: [...post.items, newItem],
+              };
+      
+              console.log("새로운 항목이 추가된 post: ", updatedPost);
+      
+              return updatedPost;
+            }
+      
+            return post;
+          });
+        });
+      
+        setNewItemContent((prevState) => ({
+          ...prevState,
+          [category]: "",
+        }));
+      };
   
 
   const handleInputChange = (e, category) => {
@@ -284,11 +312,15 @@ const handleAddItem = (category) => {
   const handleKeyPress = (e, category) => {
     if (e.key === "Enter") {
       handleAddItem(category);
+
     }
   };
-  
-
- 
+  const handleKeyEnter=(e)=>{
+    if (e.key === "Enter") {
+      
+      handleAddItemWithCategory();
+    }
+  };
 
 const updateCount = (postId, itemId, isChecked) => {
     setPosts((prevPosts) => {
@@ -323,12 +355,13 @@ const updateCount = (postId, itemId, isChecked) => {
     
   };
 
-  const [newCategory, setNewCategory] = useState("");
+const [newCategory, setNewCategory] = useState("");
+const [newCategoryWith, setNewCategoryWith]=useState("");
 const [showCategoryInput, setShowCategoryInput] = useState(false);
   
 const FloatingActionButton = styled.button`
 position: fixed; 
-  bottom:10vh;
+  bottom:20vh;
   right: 20px;
   width: 87px; 
   height: 36px; 
@@ -343,19 +376,8 @@ position: fixed;
   z-index: 100;
 `;
 
-const CategoryInputContainer = styled.div`
-display: flex;
-width: 100%;
-gap: 10px;
-flex-direction: column;
-
-`;
-
-  
-
-
   const handleAddItemWithCategory = () => {
-    if (!newCategory || !newItemContent["새 항목"]) return;
+    if (!newCategory || !newCategoryWith) return;
   
     setPosts((prevPosts) => {
       return prevPosts.map((post) => {
@@ -363,7 +385,7 @@ flex-direction: column;
           const newItem = {
             category: newCategory,
             itemId: Date.now(),
-            content: newItemContent["새 항목"],
+            content: newCategoryWith,
             count: 153,
             check: [],
           };
@@ -382,18 +404,14 @@ flex-direction: column;
       });
     });
   
-    setNewItemContent((prevState) => ({
-      ...prevState,
-      ["새 항목"]: "",
-    }));
-    setNewCategory(""); // 카테고리 입력 필드를 비웁니다
+    
+    setNewCategory(""); 
+    setNewCategoryWith("");
     setShowCategoryInput(false); // 입력 필드 숨김
   };
   
 
   const Checkbox = ({ content, itemId, updateCount, count,post, postId }) => {
-
-    
 
     const Label = styled.label`
         display: flex;
@@ -490,7 +508,14 @@ const handleFirstLineClick = (post) => (e) => {
  
   navigate(`postpage`, { state: { post: post } });
 };
-
+const AddButton = styled.button`
+  width: auto; 
+  height: auto; 
+  border-radius: 40px;
+  background: #BC66FF;
+  border: none;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+`;
 
 
   const postItems = posts.map((post) => (
@@ -529,23 +554,26 @@ const handleFirstLineClick = (post) => (e) => {
 
     
     {showCategoryInput && (
-  <CategoryInputContainer>
-    <AddItemInput
-      type="text"
-      autocomplete="off"
-      value={newCategory}
-      onChange={(e) => setNewCategory(e.target.value)}
-      placeholder="새로운 카테고리"
-    />
-    <AddItemInput
-      type="text"
-      autocomplete="off"
-      value={newItemContent["새 항목"] || ""}
-      onChange={(e) => handleInputChange(e, "새 항목")}
-      placeholder="새로운 항목"
-    />
-    <button onClick={handleAddItemWithCategory}>항목 추가</button>
-  </CategoryInputContainer>
+    <CategoryInputContainer>
+          <AddCategoryInput
+            type="text"
+            value={newCategory}
+            onChange={(e) => setNewCategory(e.target.value)}
+            onKeyPress={(e) => handleKeyEnter(e)}
+            placeholder="새로운 카테고리"
+          />
+          <FirstLine>          
+            <StyledCheckbox type="checkbox" disabled />
+            <AddItemInput
+              type="text" 
+              value={newCategoryWith}
+              onChange={(e) => setNewCategoryWith(e.target.value)}
+              onKeyPress={(e) => handleKeyEnter(e)}
+              placeholder="새로운 항목"
+            />
+            <AddButton onClick={handleAddItemWithCategory}>항목 추가</AddButton>
+          </FirstLine>
+   </CategoryInputContainer>
 )}
 
     </PostListItem>
