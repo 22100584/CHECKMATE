@@ -12,7 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 
 
 
-const user_name = "김예지";
+const userID = 1;
 
 const FloatingActionButton = styled.button`
   position: fixed; 
@@ -255,8 +255,9 @@ const DialogStyles = {
 
 const handleFilterScope=(index)=>{
   setScope(index);
-  handleFilterClose();
   console.log(scope);
+  handleFilterClose();
+  
 }
 
   const handleFilterOpen = () => {
@@ -272,6 +273,7 @@ const handleFilterScope=(index)=>{
     console.log(postData.post);
     setPosts(postData.post);
   }, []);
+
 
   const onChange = (event) => {
     setSearch(event.target.value);
@@ -307,12 +309,12 @@ const handleFilterScope=(index)=>{
                 if (isChecked) {
                   return {
                     ...item,
-                    check: [...item.check, user_name],
+                    check: [...item.check, userID],
                   };
                 } else {
                   return {
                     ...item,
-                    check: item.check.filter((name) => name !== user_name),
+                    check: item.check.filter((name) => name !== userID),
                   };
                 }
               }
@@ -372,7 +374,7 @@ const handleFilterScope=(index)=>{
 
   const item = post.items.find((i) => i.itemId === itemId);
   
-  const [checked, setChecked] = useState(item.check.includes(user_name));
+  const [checked, setChecked] = useState(item.check.includes(userID));
 
   
 
@@ -393,9 +395,7 @@ const handleFilterScope=(index)=>{
     );
   };
 
-  // const GetFirstFourItems = (items) => {
-  //   return items.slice(0, 4);
-  // };
+
 
   const CarouselContainer = styled.div`
   width: 100%;
