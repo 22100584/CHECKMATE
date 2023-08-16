@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from "prop-types";
 
 
-const user_name = "김예지";
+const userID = 111;
 
 const StyledCheckbox = styled.input`
           appearance: none;
@@ -174,28 +174,6 @@ const StyledCheckbox = styled.input`
   
   `;
 
-const AddItemInput = styled.input`
- 
-
-  border: none;
-  border-radius: 4px;
-  box-sizing: border-box;
- 
-  background: #EAD0FF;
-  &:focus {
-    outline: none;
-    border:none
-  }
-`;
-
-
-
-const InputContainer = styled.div`
-  display: flex;
-  width:100%;
-  gap: 10px; // 체크박스와 입력 필드 사이에 간격을 줍니다.
-`;
-
 
 const Category = styled.div`
 color: #000;
@@ -209,32 +187,6 @@ margin-bottom: 14px;
 padding-left:5px;
 `;
 
-const CategoryInputContainer = styled.div`
-display: flex;
-width: 100%;
-gap: 10px;
-flex-direction: column;
-
-`;
-
-const AddCategoryInput = styled.input`
-  width: 100%;
-  border: none;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-family: Pretendard;
-  font-size: 17px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  color: #000;
-  background: #EAD0FF;
-  padding-top:30px;
-  &:focus {
-    outline: none;
-    border:none
-  }
-`;
 
   
 
@@ -259,152 +211,39 @@ function DetailPost({Id}) {
     }, [postWithId]);
 
       
-    const [newItemContent, setNewItemContent] = useState({});
-
-
-    const handleAddItem = (category) => {
-        if (!newItemContent[category]) return;
-      
-        setPosts((prevPosts) => {
-          return prevPosts.map((post) => {
-            if (post.postId === parsedId) {
-              const newItem = {
-                category,
-                itemId: Date.now(),
-                content: newItemContent[category],
-                count: 153,
-                check: [],
-              };
-      
-              const updatedPost = {
-                ...post,
-                items: [...post.items, newItem],
-              };
-      
-              console.log("새로운 항목이 추가된 post: ", updatedPost);
-      
-              return updatedPost;
-            }
-      
-            return post;
-          });
-        });
-      
-        setNewItemContent((prevState) => ({
-          ...prevState,
-          [category]: "",
-        }));
-      };
   
 
-  const handleInputChange = (e, category) => {
-    setNewItemContent((prevState) => ({
-      ...prevState,
-      [category]: e.target.value,
-    }));
-  };
-  
-  const handleKeyPress = (e, category) => {
-    if (e.key === "Enter") {
-      handleAddItem(category);
-
-    }
-  };
-  const handleKeyEnter=(e)=>{
-    if (e.key === "Enter") {
-      
-      handleAddItemWithCategory();
-    }
-  };
-
-const updateCount = (postId, itemId, isChecked) => {
-    setPosts((prevPosts) => {
-      return prevPosts.map((post) => {
-        if (post.postId === postId) {
-          return {
-            ...post,
-            items: post.items.map((item) => {
-              if (item.itemId === itemId) {
-                if (isChecked) {
-                  return {
-                    ...item,
-                    check: [...item.check, user_name],
-                    
-                    
-                  };
-                } else {
-                  return {
-                    ...item,
-                    check: item.check.filter((name) => name !== user_name),
-                  };
+    const updateCount = (postId, itemId, isChecked) => {
+      setPosts((prevPosts) => {
+        const updatedPosts = prevPosts.map((post) => {
+          if (post.postId === postId) {
+            return {
+              ...post,
+              items: post.items.map((item) => {
+                if (item.itemId === itemId) {
+                  if (isChecked) {
+                    return {
+                      ...item,
+                      check: [...item.check, userID],
+                    };
+                  } else {
+                    return {
+                      ...item,
+                      check: item.check.filter((name) => name !== userID),
+                    };
+                  }
                 }
-              }
-              return item;
-            }),
-          };
-        }
-        return post;
-        
-      });
-    });
+                return item;
+              }),
+            };
+          }
+          return post;
+        });
     
-  };
-
-const [newCategory, setNewCategory] = useState("");
-const [newCategoryWith, setNewCategoryWith]=useState("");
-const [showCategoryInput, setShowCategoryInput] = useState(false);
-  
-const FloatingActionButton = styled.button`
-  position: fixed; 
-  bottom:20vh;
-  right: 20px;
-  width: 87px; 
-  height: 36px; 
-  border-radius: 80px;
-  background: #BC66FF;
-  border: none;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-`;
-
-  const handleAddItemWithCategory = () => {
-    if (!newCategory || !newCategoryWith) return;
-  
-    setPosts((prevPosts) => {
-      return prevPosts.map((post) => {
-        if (post.postId === parsedId) {
-          const newItem = {
-            category: newCategory,
-            itemId: Date.now(),
-            content: newCategoryWith,
-            count: 153,
-            check: [],
-          };
-  
-          const updatedPost = {
-            ...post,
-            items: [...post.items, newItem],
-          };
-  
-          console.log("새로운 항목이 추가된 post: ", updatedPost);
-  
-          return updatedPost;
-        }
-  
-        return post;
+        console.log(updatedPosts); // 변경된 데이터를 콘솔에 출력합니다.
+        return updatedPosts;
       });
-    });
-  
-    
-    setNewCategory(""); 
-    setNewCategoryWith("");
-    setShowCategoryInput(false); // 입력 필드 숨김
-  };
-  
+    };
 
   const Checkbox = ({ content, itemId, updateCount, count,post, postId }) => {
 
@@ -436,7 +275,7 @@ const FloatingActionButton = styled.button`
 
   const item = post.items.find((i) => i.itemId === itemId);
  
-  const [checked, setChecked] = useState(item.check.includes(user_name));
+  const [checked, setChecked] = useState(item.check.includes(userID));
 
   
 
@@ -482,16 +321,7 @@ const renderItemsByCategory = (items, post) => {
             postId={post.postId}
           />
         ))}
-        <InputContainer>
-          <StyledCheckbox type="checkbox" disabled />
-          <AddItemInput
-            type="text"
-            value={newItemContent[category] || ""}
-            onChange={(e) => handleInputChange(e, category)}
-            onKeyPress={(e) => handleKeyPress(e, category)}
-            placeholder="입력하세요"
-          />
-        </InputContainer>
+       
         
       </div>
       
@@ -503,14 +333,15 @@ const handleFirstLineClick = (post) => (e) => {
  
   navigate(`postpage`, { state: { post: post } });
 };
-const AddButton = styled.button`
-  width: auto; 
-  height: auto; 
-  border-radius: 40px;
-  background: #BC66FF;
-  border: none;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
-`;
+const handleTogetherClick = (post) => (e) => {
+  console.log("Post ID:", post.postId);
+  console.log("User ID:", userID);
+};
+
+const handleGetClick = (post) => (e) => {
+  console.log("Post ID:", post.postId);
+  console.log("User ID:", userID);
+};
 
 
   const postItems = posts.map((post) => (
@@ -528,11 +359,11 @@ const AddButton = styled.button`
       </PostInfo>
       <IconsContainer>
         <IconWrapper>
-          <Icon src={Together} />
+          <Icon src={Together} onClick={handleTogetherClick(post)} />
           <IconCount>{post.together}</IconCount>
         </IconWrapper>
         <IconWrapper>
-          <Icon src={Get} />
+          <Icon src={Get} onClick={handleGetClick(post)} />
           <IconCount>{post.get}</IconCount>
         </IconWrapper>
      </IconsContainer>
@@ -548,28 +379,7 @@ const AddButton = styled.button`
     <CheckList>{renderItemsByCategory(post.items, post)}</CheckList>
 
     
-    {showCategoryInput && (
-    <CategoryInputContainer>
-          <AddCategoryInput
-            type="text"
-            value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value)}
-            onKeyPress={(e) => handleKeyEnter(e)}
-            placeholder="새로운 카테고리"
-          />
-          <FirstLine>          
-            <StyledCheckbox type="checkbox" disabled />
-            <AddItemInput
-              type="text" 
-              value={newCategoryWith}
-              onChange={(e) => setNewCategoryWith(e.target.value)}
-              onKeyPress={(e) => handleKeyEnter(e)}
-              placeholder="새로운 항목"
-            />
-            <AddButton onClick={handleAddItemWithCategory}>항목 추가</AddButton>
-          </FirstLine>
-   </CategoryInputContainer>
-)}
+   
 
     </PostListItem>
   </PostList>
@@ -583,8 +393,7 @@ const AddButton = styled.button`
       <PostList>{postItems}</PostList>
 
     </DetailPostComponent>
-    <FloatingActionButton onClick={() => setShowCategoryInput(true)}>카테고리 추가</FloatingActionButton>
-
+    
     </>
     
   );
