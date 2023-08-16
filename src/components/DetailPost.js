@@ -44,16 +44,14 @@ const StyledCheckbox = styled.input`
               }
           `;
    const PostList = styled.div`
-   list-style-type: none;
-   flex-direction: column;
-   width: 100%;
-   
-   min-height: 90vh;
-  
-   overflow-y: auto; 
+      list-style-type: none;
+      flex-direction: column;
+      overflow-y: scroll;
+      max-height: 90vh;
  `;
   
   const PostListItem = styled.div`
+    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -66,18 +64,16 @@ const StyledCheckbox = styled.input`
     flex-shrink: 0;
     background: #EAD0FF;
     padding-bottom:100px;
-  
-    
-  
-  .title{
-    color: #000;
-  font-family: Pretendard;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  margin:0px 0px 5px 0px;
-  }
+
+    .title{
+      color: #000;
+    font-family: Pretendard;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin:0px 0px 5px 0px;
+    }
   `;
   
   const FirstLine =styled.div`
@@ -173,14 +169,13 @@ const StyledCheckbox = styled.input`
     flex-direction: column;
     align-items: center;
     padding-top: 18px;
-  
     position: relative;
   
   
   `;
 
 const AddItemInput = styled.input`
-  width: 100%;
+ 
 
   border: none;
   border-radius: 4px;
@@ -360,7 +355,7 @@ const [newCategoryWith, setNewCategoryWith]=useState("");
 const [showCategoryInput, setShowCategoryInput] = useState(false);
   
 const FloatingActionButton = styled.button`
-position: fixed; 
+  position: fixed; 
   bottom:20vh;
   right: 20px;
   width: 87px; 
@@ -583,11 +578,15 @@ const AddButton = styled.button`
 
 
   return (
+    <>
     <DetailPostComponent>
       <PostList>{postItems}</PostList>
-      <FloatingActionButton onClick={() => setShowCategoryInput(true)}>카테고리 추가</FloatingActionButton>
 
     </DetailPostComponent>
+    <FloatingActionButton onClick={() => setShowCategoryInput(true)}>카테고리 추가</FloatingActionButton>
+
+    </>
+    
   );
 }
 DetailPost.propTypes = {

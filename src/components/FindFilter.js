@@ -151,9 +151,6 @@ const CheckList = styled.div`
   width: 100%;
   margin-top: 5px;
   margin-bottom:5px;
-  
- 
-
 `;
 
 
@@ -183,7 +180,7 @@ const FindFilterComponent = styled.div`
     padding: 8px 12px;
     padding-left: 35px;
     overflow: hidden;
-color: var(--labels-secondary, rgba(60, 60, 67, 0.60));
+    color: var(--labels-secondary, rgba(60, 60, 67, 0.60));
     text-overflow: ellipsis;
     font-family: Pretendard;
     font-size: 17px;
@@ -243,10 +240,6 @@ function FindFilter() {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
  
-
-  
-
-
   useEffect(() => {
     console.log(postData.post);
     setPosts(postData.post);

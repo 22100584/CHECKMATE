@@ -11,8 +11,9 @@ const AddPostComponent = styled.div`
         flex-direction: column;
         align-items: center;
         padding: 25px;
+
         position: relative;
-        height: 90vh;
+        
         background: #EAD0FF;
         box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.10);
         `;
@@ -35,6 +36,7 @@ const PostInfo = styled.div`
 display: flex;
 flex-direction: column;
 width:auto;
+
 .title{
 color: #000;
 font-family: Pretendard;
@@ -97,7 +99,7 @@ const HashtagsContainer = styled.div`
     line-height: normal;
 `;
 const FloatingActionButton = styled.button`
-position: fixed; 
+  position: fixed; 
   bottom:20vh;
   right: 20px;
   width: 87px; 
@@ -141,7 +143,7 @@ const AddItemInput = styled.input`
     outline: none;
     border:none
   }
-  padding-left: 10px;
+        padding-left: 10px;
         color: var(--studywith-black, #121212);
         font-family: Pretendard;
         font-size: 14px;
@@ -184,10 +186,15 @@ const AddButton = styled.button`
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+    overflow-y: scroll;
+    min-height: 65vh;
+    max-height: 65vh;
+    padding-bottom:100px;
+   
     
   `;
   const Content = styled.div`
-  
+
     display: flex;
     flex-direction: row;
     padding-bottom:15px;
@@ -455,8 +462,8 @@ const handleKeyPress = (e, category) => {
 
         <Divider />
 
-        <CheckList>{renderItemsByCategory(items)}</CheckList>
-
+        <CheckList>
+        {renderItemsByCategory(items)}
         {showCategoryInput && (
         <CategoryInputContainer>
           <AddCategoryInput
@@ -479,10 +486,15 @@ const handleKeyPress = (e, category) => {
             />
             <AddButton onClick={handleAddItemWithCategory}>항목 추가</AddButton>
           </FirstLine>
-   </CategoryInputContainer>
-)}
+   </CategoryInputContainer>)}
+        
+        </CheckList>
+       
+        
 
-        <FloatingActionButton onClick={() => setShowCategoryInput(!showCategoryInput)}>카테고리 추가</FloatingActionButton>
+
+
+<FloatingActionButton onClick={() => setShowCategoryInput(!showCategoryInput)}>카테고리 추가</FloatingActionButton>
 
       </AddPostComponent>
     );
