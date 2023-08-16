@@ -37,14 +37,13 @@ function MyPage() {
   `;
   
   return (
-    <>
-      <BackgroundImage />
+   
       <MyPage>
           <MyBar />
           <MyPost />
 
       </MyPage>
-    </>
+   
   );
 }
 

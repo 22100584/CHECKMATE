@@ -7,20 +7,6 @@ import FindFilter from "../components//FindFilter";
 
 function HomePage() {
   
-  
-  const BackgroundImage = styled.div`
-    width: 100%;
-    height: 100%;
-    background-image: url(${BackImage});
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-  `;
-
   const HomePage = styled.div`
     @font-face {
       font-family: 'Pretendard-Regular';
@@ -40,14 +26,14 @@ function HomePage() {
   `;
   
   return (
-    <>
-      <BackgroundImage />
+   
+   
       <HomePage>
         <AppBar />
         <FindFilter />
       
       </HomePage>
-    </>
+   
   );
 }
 

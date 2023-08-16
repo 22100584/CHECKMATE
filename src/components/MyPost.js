@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useRef} from 'react';
 import styled from "styled-components";
 import ProfileImage from "../assets/images/profile.png";
 import userData from '../user.json';
@@ -340,6 +340,19 @@ function MyPost() {
     const [choose,setChoose] = useState(true);
     const [posts, setPosts] = useState([]);
     const [posts2, setPosts2] = useState([]);
+    const [uploadedImage, setUploadedImage] = React.useState(null);
+    const inputRef = useRef();
+
+    const onChangeImage = (event) => {
+      if (event.target.files && event.target.files[0]) {
+        setUploadedImage(URL.createObjectURL(event.target.files[0]));
+        console.log("이미지 이름:", event.target.files[0].name);
+      }
+    };
+  
+    const handleClick = () => {
+      inputRef.current.click();
+    };
 
     useEffect(() => {
       
@@ -355,7 +368,7 @@ function MyPost() {
 
     const handleFirstLineClick = (post) => (e) => {
       console.log(post);
-      navigate(`/postpage`, { state: { postId: `${post.postId}` } });
+      navigate(`editmypage`, { state: { postId: `${post.postId}` } });
       };
     
       const updateCount = (postId, itemId, isChecked) => {
@@ -571,13 +584,20 @@ function MyPost() {
       );
     }
 
-
+   
       
 
   return (
     <MyPostComponent>
       <MyInfo>
-        <UserProfile src={ProfileImage} alt="프로필 이미지" />
+      
+      {uploadedImage ? (
+        <UserProfile src={uploadedImage} alt="프로필 없을때" onClick={handleClick} />
+      ) : (
+        <UserProfile src={ProfileImage} alt="프로필사진" onClick={handleClick} />
+      )}
+      <input type="file" ref={inputRef} onChange={onChangeImage} style={{ display: 'none' }} />
+        
         <MyNameFollow>
           <p className='margin-bottom'>{userData.user.nickname}</p>
           <MyFollow>

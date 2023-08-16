@@ -9,21 +9,10 @@ import { useLocation } from 'react-router-dom';
 
 function PostPage() {
 
-  const BackgroundImage = styled.div`
-    width: 100%;
-    height: 100%;
-    background-image: url(${BackImage});
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-  `;
+
 const location = useLocation();
 const userInfo = { ...location.state };
-console.log(userInfo.postId);
+console.log(userInfo);
   const PostPage = styled.div`
     @font-face {
       font-family: 'Pretendard-Regular';
@@ -42,14 +31,13 @@ console.log(userInfo.postId);
 
   
   return (
-    <>
-      <BackgroundImage />
+   
       <PostPage>
         <AppBar />
        <DetailPost Id={userInfo.postId}/>
       
       </PostPage>
-    </>
+   
   );
 }
 

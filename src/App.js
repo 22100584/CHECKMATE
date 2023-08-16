@@ -3,6 +3,7 @@ import HomePage from "./routes/Homepage";
 import MyPage from "./routes/Mypage";
 import PostPage from "./routes/Postpage"
 import AddPostPage from "./routes/AddPostPage";
+import EditMyPostpage from "./routes/EditMyPostpage";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/mypage" element={<MyPage />}></Route>
+        <Route path="/editmypage" element={<EditMyPostpage />}></Route>
         <Route path="/postpage" element={<PostPage />}></Route>
         <Route path="/addpostpage" element={<AddPostPage />}></Route>
       </Routes>
