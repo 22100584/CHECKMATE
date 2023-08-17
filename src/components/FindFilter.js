@@ -165,6 +165,7 @@ const FindFilterComponent = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 18px;
+
   position: relative;
 
   .SearchFilterWrapper {
@@ -249,29 +250,33 @@ const DialogStyles = {
   position: 'absolute',
   top: 'calc(0% - 430px)',
   left: 'calc(50% - 160px)',
- 
-  
+
+
 };
 
 const handleFilterScope=(index)=>{
   setScope(index);
   console.log(scope);
   handleFilterClose();
-  
+
 }
 
   const handleFilterOpen = () => {
     setOpen(true);
   };
-  
+
   const handleFilterClose = () => {
     setOpen(false);
   };
-  
- 
+
+
   useEffect(() => {
     console.log(postData.post);
-    setPosts(postData.post);
+    readPostsByGet().then((res) => {
+      // setPosts(res);
+      console.log(res);
+    });
+    // setPosts(postData.post);
   }, []);
 
 
@@ -296,7 +301,7 @@ const handleFilterScope=(index)=>{
     useEffect(() => {
       setFilteredPosts(posts);
     }, [posts]);
-  
+
 
   const updateCount = (postId, itemId, isChecked) => {
     setPosts((prevPosts) => {
@@ -390,7 +395,7 @@ const handleFilterScope=(index)=>{
         checked={checked}
         onChange={handleChange}
       />
-      {content} 
+      {content}
     </Label>
     );
   };
@@ -525,7 +530,7 @@ const handleFabClick = () => {
   <line x1="14" y1="6.87217" x2="-5.68248e-08" y2="6.87217" stroke="black" stroke-width="1.3"/>
 </svg>
         </FloatingActionButtonIcon>
-        
+
 				<span
 					style={{
 						marginLeft: '10px',
@@ -549,11 +554,11 @@ const handleFabClick = () => {
   <div style={{ height: '30px', margin: '0 0 0 5px',}} onClick={() => handleFilterScope(1)}>
     최신순
   </div>
-  <Divider sx={{ background: 'white' }} />  
+  <Divider sx={{ background: 'white' }} />
   <div style={{ height: '30px', margin: '0 0 0 5px' }} onClick={() => handleFilterScope(2)}>
     가져오기 순
   </div>
-  <Divider sx={{ background: 'white' }} />  
+  <Divider sx={{ background: 'white' }} />
   <div style={{ height: '30px', margin: '0 0 0 5px' }} onClick={() => handleFilterScope(3)}>
     함께하기 순
   </div>

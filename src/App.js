@@ -4,6 +4,8 @@ import MyPage from "./routes/Mypage";
 import PostPage from "./routes/Postpage"
 import AddPostPage from "./routes/AddPostPage";
 import EditMyPostpage from "./routes/EditMyPostpage";
+import PostPage from "./routes/Postpage";
+import Loginpage from "./routes/Loginpage";
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
         <Route path="/editmypage" element={<EditMyPostpage />}></Route>
         <Route path="/postpage" element={<PostPage />}></Route>
         <Route path="/addpostpage" element={<AddPostPage />}></Route>
+        <Route path="/login" element={<Loginpage />}></Route>
       </Routes>
     </Router>
   );
