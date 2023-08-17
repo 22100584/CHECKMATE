@@ -253,6 +253,32 @@ height: 30px;
 margin-bottom: 10px;
 `;
 
+const Hashtag = styled.div`
+  background-color: #BC66FF; // 원하는 배경색으로 수정하세요.
+  border-radius: 12px; // 원하는 border-radius 값을 설정하세요.
+  padding: 4px 8px; // 패딩 값을 바꾸면 원하는 간격으로 수정할 수 있습니다.
+  color: #fff;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border: none;
+    font-size: 10px;
+    color: #BC66FF;
+    cursor: pointer;
+  }
+`;
+
+
 function AddPost() {
     const [title, setTitle] = useState("");
     const [hashtags, setHashtags] = useState([]);
@@ -263,7 +289,7 @@ function AddPost() {
     const [showCategoryInput, setShowCategoryInput] = useState(false);
     const [newItemContent, setNewItemContent] = useState({});
 
-
+    const uncategorized = ""; // 카테고리가 없는 경우를 위한 이름(예: 기타)
     const getDate = () => {
     const date = new Date();
     const year = date.getFullYear();
@@ -387,20 +413,33 @@ const handleKeyPress = (e, category) => {
     }
   };
 
+  const onHashtagDelete = (indexToDelete) => {
+    const newHashtags = hashtags.filter((_, index) => index !== indexToDelete);
+    setHashtags(newHashtags);
+  };
+  
+
       
     const renderItemsByCategory = (items) => {
     // 카테고리별 항목 그룹화
     const itemsByCategory = items.reduce((acc, item) => {
-      const category = item.category;
+      const category = item.category || uncategorized; // 없는 경우 '기타'로 설정
       if (!acc[category]) {
         acc[category] = [];
       }
       acc[category].push(item);
       return acc;
     }, {});
-  
+    
+    const categoriesToRender = [...Object.entries(itemsByCategory)]
+    .filter(([category]) => category !== uncategorized)
+    .sort((a, b) => a[0].localeCompare(b[0]));
+  if (itemsByCategory[uncategorized]) {
+    categoriesToRender.push([uncategorized, itemsByCategory[uncategorized]]);
+  }
+
     // 카테고리별 항목 렌더링
-    return Object.entries(itemsByCategory).map(([category, items]) => (
+    return categoriesToRender.map(([category, items]) => (
       <div key={category}>
         <Category>{category}</Category>
         
@@ -413,13 +452,14 @@ const handleKeyPress = (e, category) => {
         <p className="content">{item.content}</p>
          </Content>
         ))}
-        <InputContainer>
+       {(category!=="") &&(<InputContainer>
             <svg className="margin" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
             <circle cx="7.5" cy="7.5" r="7" stroke="#121212"/>
             </svg>
+            
             <AddItemInput
                 type="text"
-                value={newItemContent[category] || ""}
+                value={newItemContent[category] || "  "}
                 onChange={(e) => handleInputChange(e, category)}
                 onKeyPress={(e) => handleKeyPress(e, category)}
                 placeholder="입력하세요"
@@ -429,7 +469,9 @@ const handleKeyPress = (e, category) => {
 <line x1="13.4583" y1="8.54907" x2="3.54158" y2="8.54907" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
 <circle cx="8.5" cy="8.5" r="7.9" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
 </svg></AddButton> 
-        </InputContainer>
+        </InputContainer>)}
+        
+        
         
       </div>
       
@@ -450,9 +492,14 @@ const handleKeyPress = (e, category) => {
               onChange={onTitleChange}
             />
             <HashtagsContainer>
-              {hashtags.map((hashtag, index) => (
-                <span key={index}>#{hashtag}</span>
-              ))}
+            {
+  hashtags.map((hashtag, index) => (
+    <Hashtag key={index}>
+    #{hashtag}
+    <button  onClick={() => onHashtagDelete(index)}>X</button>
+  </Hashtag>
+  ))
+}
               {hashtags.length < 5 && (
           <input
             className="hashtag"
@@ -505,7 +552,27 @@ const handleKeyPress = (e, category) => {
 </svg></AddButton> 
 </InputContainer>
    </CategoryInputContainer>)}
-        
+        <InputContainer>
+        <svg className="margin" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
+            <circle cx="7.5" cy="7.5" r="7" stroke="#121212"/>
+            </svg>
+            <AddItemInput
+                type="text"
+                value={newItemContent[""] || ""}
+                onChange={(e) => handleInputChange(e, "")}
+                onKeyPress={(e) => handleKeyPress(e, "")}
+                placeholder="입력하세요"
+            />
+            <AddButton onClick={() => handleAddItem("")}><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 17 17" fill="none">
+<line x1="8.54897" y1="3.54166" x2="8.54897" y2="13.4583" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+<line x1="13.4583" y1="8.54907" x2="3.54158" y2="8.54907" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+<circle cx="8.5" cy="8.5" r="7.9" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+</svg></AddButton> 
+        </InputContainer>
+          
+       
+
+
         </CheckList>
        
         
