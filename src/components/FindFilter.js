@@ -266,11 +266,11 @@ function FindFilter() {
   const onChange = (event) => {
     setSearch(event.target.value);
     let searchQuery = event.target.value.trim().toLowerCase().split(' ');
-    if (searchQuery === '') {
+    if (searchQuery[0] === '') {
       setFilteredPosts(posts);
     } else {
       setFilteredPosts(
-
+        
         posts
           .map((post) => {
             const matchedTagCounts = post.hashtags.filter((hashtag) =>
