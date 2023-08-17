@@ -134,6 +134,7 @@ flex-direction: column;
 
 `;
 const AddItemInput = styled.input`
+  flex-grow:1;
   padding:0px;
   border: none;
   border-radius: 4px;
@@ -176,11 +177,11 @@ const AddButton = styled.button`
   width: auto; 
   height: auto; 
   border-radius: 40px;
-  background: #BC66FF;
+  background: #EAD0FF;
   border: none;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
-`;
+  padding-right: 20px;
 
+`;
   const CheckList = styled.div`
     display: flex;
     flex-direction: column;
@@ -214,7 +215,8 @@ const AddButton = styled.button`
 const InputContainer = styled.div`
     display: flex;
     flex-direction: row;  
-   
+    width: 339px;
+        height: auto;
 `;
 
 const DateWriterInfo = styled.div`
@@ -242,7 +244,14 @@ const DateWriterInfo = styled.div`
     margin: 10px 0;
   `;
 
-
+const Label = styled.label`
+display: flex;
+align-items: center;
+gap: 10px; // 체크카운트와 내용 사이의 기본 간격.
+width: 339px;
+height: 30px;
+margin-bottom: 10px;
+`;
 
 function AddPost() {
     const [title, setTitle] = useState("");
@@ -398,14 +407,14 @@ const handleKeyPress = (e, category) => {
         {items.map((item) => (
             
          <Content>
-         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
             <circle cx="7.5" cy="7.5" r="7" stroke="#121212"/>
         </svg>
         <p className="content">{item.content}</p>
          </Content>
         ))}
         <InputContainer>
-            <svg className="margin" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+            <svg className="margin" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
             <circle cx="7.5" cy="7.5" r="7" stroke="#121212"/>
             </svg>
             <AddItemInput
@@ -415,6 +424,11 @@ const handleKeyPress = (e, category) => {
                 onKeyPress={(e) => handleKeyPress(e, category)}
                 placeholder="입력하세요"
             />
+            <AddButton onClick={() => handleAddItem(category)}><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 17 17" fill="none">
+<line x1="8.54897" y1="3.54166" x2="8.54897" y2="13.4583" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+<line x1="13.4583" y1="8.54907" x2="3.54158" y2="8.54907" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+<circle cx="8.5" cy="8.5" r="7.9" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+</svg></AddButton> 
         </InputContainer>
         
       </div>
@@ -473,7 +487,7 @@ const handleKeyPress = (e, category) => {
             onKeyPress={(e) => handleKeyEnter(e)}
             placeholder="새로운 카테고리"
           />
-          <FirstLine>          
+          <InputContainer>          
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
             <circle cx="7.5" cy="7.5" r="7" stroke="#121212"/>
             </svg>
@@ -484,8 +498,12 @@ const handleKeyPress = (e, category) => {
               onKeyPress={(e) => handleKeyEnter(e)}
               placeholder="새로운 항목"
             />
-            <AddButton onClick={handleAddItemWithCategory}>항목 추가</AddButton>
-          </FirstLine>
+             <AddButton onClick={handleAddItemWithCategory}><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+<line x1="8.54897" y1="3.54166" x2="8.54897" y2="13.4583" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+<line x1="13.4583" y1="8.54907" x2="3.54158" y2="8.54907" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+<circle cx="8.5" cy="8.5" r="7.9" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+</svg></AddButton> 
+</InputContainer>
    </CategoryInputContainer>)}
         
         </CheckList>

@@ -5,19 +5,7 @@ import BackImage from "../assets/images/background.jpeg";
 import MyPost from "../components/MyPost";
 
 function MyPage() {
-  const BackgroundImage = styled.div`
-    width: 100%;
-    height: 100%;
-    background-image: url(${BackImage});
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    
-  `;
+  
 
   const MyPage = styled.div`
     @font-face {

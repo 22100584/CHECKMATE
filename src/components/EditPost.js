@@ -116,6 +116,14 @@ const StyledCheckbox = styled.input`
     display: flex;
     flex-direction: column;
     gap: 5px;
+    .editFont{
+        color: #000;
+font-family: Pretendard;
+font-size: 15px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+    }
   `;
   
   const IconCount = styled.span`
@@ -176,7 +184,7 @@ const StyledCheckbox = styled.input`
 
 const AddItemInput = styled.input`
  
-
+ flex-grow: 1;
   border: none;
   border-radius: 4px;
   box-sizing: border-box;
@@ -350,6 +358,10 @@ const updateCount = (postId, itemId, isChecked) => {
     
   };
 
+  const handleIconClick = (post) => {
+    console.log("Clicked Post: ", post);
+};
+
 const [newCategory, setNewCategory] = useState("");
 const [newCategoryWith, setNewCategoryWith]=useState("");
 const [showCategoryInput, setShowCategoryInput] = useState(false);
@@ -490,7 +502,14 @@ const renderItemsByCategory = (items, post) => {
             onChange={(e) => handleInputChange(e, category)}
             onKeyPress={(e) => handleKeyPress(e, category)}
             placeholder="입력하세요"
-          />
+          /> 
+          <AddButton  onClick={() => handleAddItem(category)}>
+            
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+          <line x1="8.54897" y1="3.54166" x2="8.54897" y2="13.4583" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+          <line x1="13.4583" y1="8.54907" x2="3.54158" y2="8.54907" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+          <circle cx="8.5" cy="8.5" r="7.9" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+          </svg></AddButton>
         </InputContainer>
         
       </div>
@@ -499,17 +518,15 @@ const renderItemsByCategory = (items, post) => {
   };
   
 
-const handleFirstLineClick = (post) => (e) => {
- 
-  navigate(`postpage`, { state: { post: post } });
-};
+
 const AddButton = styled.button`
   width: auto; 
   height: auto; 
   border-radius: 40px;
-  background: #BC66FF;
+  background: #EAD0FF;
   border: none;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+  padding-right: 20px;
+
 `;
 
 
@@ -517,7 +534,7 @@ const AddButton = styled.button`
   <PostList key={post.postId}>
     <PostListItem>
     <FirstLine  >
-      <PostInfo onClick={handleFirstLineClick(post)}
+      <PostInfo 
         style={{ cursor: 'pointer' }}>
       <p className="title">{post.title}</p>
       <HashTags>
@@ -526,14 +543,15 @@ const AddButton = styled.button`
         ))}
       </HashTags>
       </PostInfo>
-      <IconsContainer>
+      <IconsContainer  onClick={() => handleIconClick(post)}>
         <IconWrapper>
-          <Icon src={Together} />
-          <IconCount>{post.together}</IconCount>
+        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none">
+<path d="M8.5 2.07143V11.1786M11.7143 4.21429L8.5 1L5.28571 4.21429M1 9.57143V14.9286C1 15.4969 1.22576 16.0419 1.62763 16.4438C2.02949 16.8457 2.57454 17.0714 3.14286 17.0714H13.8571C14.4255 17.0714 14.9705 16.8457 15.3724 16.4438C15.7742 16.0419 16 15.4969 16 14.9286V9.57143" stroke="black" stroke-width="1.58333" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+          
         </IconWrapper>
         <IconWrapper>
-          <Icon src={Get} />
-          <IconCount>{post.get}</IconCount>
+            <div className="editFont">Edit</div>
         </IconWrapper>
      </IconsContainer>
     </FirstLine>
@@ -557,7 +575,7 @@ const AddButton = styled.button`
             onKeyPress={(e) => handleKeyEnter(e)}
             placeholder="새로운 카테고리"
           />
-          <FirstLine>          
+          <InputContainer>          
             <StyledCheckbox type="checkbox" disabled />
             <AddItemInput
               type="text" 
@@ -566,8 +584,12 @@ const AddButton = styled.button`
               onKeyPress={(e) => handleKeyEnter(e)}
               placeholder="새로운 항목"
             />
-            <AddButton onClick={handleAddItemWithCategory}>항목 추가</AddButton>
-          </FirstLine>
+            <AddButton onClick={handleAddItemWithCategory}><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+<line x1="8.54897" y1="3.54166" x2="8.54897" y2="13.4583" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+<line x1="13.4583" y1="8.54907" x2="3.54158" y2="8.54907" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+<circle cx="8.5" cy="8.5" r="7.9" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
+</svg></AddButton>
+          </InputContainer>
    </CategoryInputContainer>
 )}
 

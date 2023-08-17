@@ -242,15 +242,6 @@ function FindFilter() {
 
   const handleFilterScope = (index) => {
     setScope(index);
-    if (scope == 1) {
-    } else if (scope == 2) {
-      readPostsByGet().then((res) => {
-        setPosts(res);
-        // console.log(res);
-      });
-    } else {
-    }
-
     console.log(scope);
     handleFilterClose();
   };
@@ -264,27 +255,36 @@ function FindFilter() {
   };
 
   useEffect(() => {
-    // console.log(postData.post);
+    console.log(postData.post);
     readPostsByGet().then((res) => {
       setPosts(res);
-      console.log(res);
+      // console.log(res);
     });
     // setPosts(postData.post);
   }, []);
 
   const onChange = (event) => {
     setSearch(event.target.value);
-    let searchQuery = event.target.value.toLowerCase();
-    if (searchQuery === "") {
+    let searchQuery = event.target.value.trim().toLowerCase().split(' ');
+    if (searchQuery === '') {
       setFilteredPosts(posts);
     } else {
       setFilteredPosts(
-        posts.filter(
-          (post) =>
-            post.hastags.some((hashtag) =>
-              hashtag.toLowerCase().includes(searchQuery)
-            ) || post.title.toLowerCase().includes(searchQuery)
-        )
+
+        posts
+          .map((post) => {
+            const matchedTagCounts = post.hashtags.filter((hashtag) =>
+              searchQuery.some((query) => hashtag.toLowerCase().includes(query))
+            ).length;
+            
+            return {
+              ...post,
+              matchedTagCounts,
+            };
+          })
+          .sort((a, b) => b.matchedTagCounts - a.matchedTagCounts)
+          .filter((post) => post.matchedTagCounts > 0)
+
       );
     }
   };
