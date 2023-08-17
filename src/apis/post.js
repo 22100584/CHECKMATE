@@ -13,7 +13,7 @@ export const readPostsByTime = async () => {
       withCredentials: true,
     }
   );
-  return response;
+  return response.data;
 };
 
 export const readPostsByGet = async () => {
@@ -47,7 +47,7 @@ export const readPostsByTogether = async () => {
       withCredentials: true,
     }
   );
-  return response;
+  return response.data;
 };
 
 export const search = async (keyword) => {
@@ -66,7 +66,7 @@ export const search = async (keyword) => {
       withCredentials: true,
     }
   );
-  return response;
+  return response.data;
 };
 
 export const readPostDetail = async (postId) => {
@@ -86,7 +86,7 @@ export const readPostDetail = async (postId) => {
       withCredentials: true,
     }
   );
-  return response;
+  return response.data;
 };
 
 export const reportPost = async (postId, content) => {
@@ -107,59 +107,77 @@ export const reportPost = async (postId, content) => {
       withCredentials: true,
     }
   );
-  return response;
+  return response.data;
 };
 
 export const savePost = async (data) => {
-  // 게시글 삭제
+  // 게시글저장
 
-  const TOKEN = localStorage.getItem("accessToken");
+  // const TOKEN = localStorage.getItem("accessToken");
 
   const response = await axios.delete(
     `${process.env.REACT_APP_BACK_BASE_URL}/api/post`,
     data,
     {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
+      // headers: {
+      //   Authorization: `Bearer ${TOKEN}`,
+      // },
       withCredentials: true,
     }
   );
-  return response;
+  return response.data;
 };
 
 export const addPost = async (data) => {
   // 체크리스트 작성
 
-  const TOKEN = localStorage.getItem("accessToken");
+  // const TOKEN = localStorage.getItem("accessToken");
 
   const response = await axios.post(
     `${process.env.REACT_APP_BACK_BASE_URL}/api/post`,
     data,
     {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
+      // headers: {
+      //   Authorization: `Bearer ${TOKEN}`,
+      // },
       withCredentials: true,
     }
   );
-  return response;
+  return response.data;
 };
 
 export const editPost = async (data) => {
   // 체크리스트 수정
 
-  const TOKEN = localStorage.getItem("accessToken");
+  // const TOKEN = localStorage.getItem("accessToken");
 
   const response = await axios.patch(
     `${process.env.REACT_APP_BACK_BASE_URL}/api/post`,
     data,
     {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
+      // headers: {
+      //   Authorization: `Bearer ${TOKEN}`,
+      // },
       withCredentials: true,
     }
   );
-  return response;
+  return response.data;
+};
+
+export const deletePost = async (data) => {
+  // 체크리스트 삭제
+
+  // const TOKEN = localStorage.getItem("accessToken");
+
+  const response = await axios.delete(
+    `${process.env.REACT_APP_BACK_BASE_URL}/api/post`,
+    data,
+    {
+      // headers: {
+      //   Authorization: `Bearer ${TOKEN}`,
+      // },
+      withCredentials: true,
+    }
+  );
+  return response.data;
 };

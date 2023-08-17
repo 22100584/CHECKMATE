@@ -9,7 +9,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import { readPostsByGet } from "../apis/post";
+import { readPostsByGet, readPostsByTime } from "../apis/post";
 
 const userID = 1;
 
@@ -243,6 +243,22 @@ function FindFilter() {
   const handleFilterScope = (index) => {
     setScope(index);
     console.log(scope);
+    if (scope === 1) {
+      readPostsByTime().then((res) => {
+        setPosts(res);
+        console.log(res);
+      });
+    } else if (scope === 2) {
+      readPostsByGet().then((res) => {
+        setPosts(res);
+        console.log(res);
+      });
+    } else {
+      readPostsByTime().then((res) => {
+        setPosts(res);
+        console.log(res);
+      });
+    }
     handleFilterClose();
   };
 
@@ -270,13 +286,13 @@ function FindFilter() {
       setFilteredPosts(posts);
     } else {
       setFilteredPosts(
-        
+
         posts
           .map((post) => {
             const matchedTagCounts = post.hashtags.filter((hashtag) =>
               searchQuery.some((query) => hashtag.toLowerCase().includes(query))
             ).length;
-            
+
             return {
               ...post,
               matchedTagCounts,
@@ -284,7 +300,6 @@ function FindFilter() {
           })
           .sort((a, b) => b.matchedTagCounts - a.matchedTagCounts)
           .filter((post) => post.matchedTagCounts > 0)
-
       );
     }
   };
