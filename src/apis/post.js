@@ -3,14 +3,12 @@ import axios from "axios";
 export const readPostsByTime = async () => {
   // 최신순으로 게시글 가져오기
   // const TOKEN = localStorage.getItem("accessToken");
-  const TOKEN =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vNDkuNTAuMTY3LjE4OSIsInN1YiI6ImRkZzAzMDhAbmF2ZXIuY29tIiwibmFtZSI6IuydtOyduO2YgSIsInJvbCI6IlVTRVIiLCJpYXQiOjE2OTIwMjQzMDMsImV4cCI6MTY5MjI0MDQwMn0.zTpKk3rl85uTvS8iFWWYVA_x7sKvtFalckTimC_MxPM";
 
   const response = await axios.get(
     `${process.env.REACT_APP_BACK_BASE_URL}/api/post/time`,
     {
       headers: {
-        Authorization: `Bearer ${TOKEN}`,
+        // Authorization: `Bearer ${TOKEN}`,
       },
       withCredentials: true,
     }
@@ -21,16 +19,15 @@ export const readPostsByTime = async () => {
 export const readPostsByGet = async () => {
   // 가져오기순으로 게시글 가져오기
   // const TOKEN = localStorage.getItem("accessToken");
-  const TOKEN =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vNDkuNTAuMTY3LjE4OSIsInN1YiI6ImRkZzAzMDhAbmF2ZXIuY29tIiwibmFtZSI6IuydtOyduO2YgSIsInJvbCI6IlVTRVIiLCJpYXQiOjE2OTIwMjQzMDMsImV4cCI6MTY5MjI0MDQwMn0.zTpKk3rl85uTvS8iFWWYVA_x7sKvtFalckTimC_MxPM";
+  // const TOKEN = process.env.TOKEN;
 
   const response = await axios.get(
     `${process.env.REACT_APP_BACK_BASE_URL}/api/post/get`,
     {
       headers: {
-        Authorization: `Bearer ${TOKEN}`,
+        // Authorization: `Bearer ${TOKEN}`,
       },
-      // withCredentials: true,
+      withCredentials: true,
     }
   );
   return response.data;
@@ -39,14 +36,13 @@ export const readPostsByGet = async () => {
 export const readPostsByTogether = async () => {
   // 함께하기순으로 게시글 가져오기
   // const TOKEN = localStorage.getItem("accessToken");
-  const TOKEN =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vNDkuNTAuMTY3LjE4OSIsInN1YiI6ImRkZzAzMDhAbmF2ZXIuY29tIiwibmFtZSI6IuydtOyduO2YgSIsInJvbCI6IlVTRVIiLCJpYXQiOjE2OTIwMjQzMDMsImV4cCI6MTY5MjI0MDQwMn0.zTpKk3rl85uTvS8iFWWYVA_x7sKvtFalckTimC_MxPM";
 
+  const TOKEN = process.env.TOKEN;
   const response = await axios.get(
     `${process.env.REACT_APP_BACK_BASE_URL}/api/post/together`,
     {
       headers: {
-        Authorization: `Bearer ${TOKEN}`,
+        // Authorization: `Bearer ${TOKEN}`,
       },
       withCredentials: true,
     }
@@ -65,7 +61,7 @@ export const search = async (keyword) => {
     },
     {
       headers: {
-        Authorization: `Bearer ${TOKEN}`,
+        // Authorization: `Bearer ${TOKEN}`,
       },
       withCredentials: true,
     }

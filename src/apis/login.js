@@ -5,7 +5,7 @@ export const kakaoLogin = async (code) => {
   // const TOKEN = localStorage.getItem("accessToken");
 
   const response = await axios.get(
-    `http://localhost:8080/api/auth/login?code=${code}`,
+    `${process.env.REACT_APP_BACK_BASE_URL}/auth/login?code=${code}`,
 
     {
       //   headers: {
