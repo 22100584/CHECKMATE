@@ -281,11 +281,12 @@ function FindFilter() {
 
   const onChange = (event) => {
     setSearch(event.target.value);
-    let searchQuery = event.target.value.trim().toLowerCase().split(" ");
-    if (searchQuery === "") {
+    let searchQuery = event.target.value.trim().toLowerCase().split(' ');
+    if (searchQuery[0] === '') {
       setFilteredPosts(posts);
     } else {
       setFilteredPosts(
+
         posts
           .map((post) => {
             const matchedTagCounts = post.hashtags.filter((hashtag) =>
@@ -305,7 +306,6 @@ function FindFilter() {
 
   useEffect(() => {
     setFilteredPosts(posts);
-    console.log("filtered : " + filteredPosts);
   }, [posts]);
 
   const updateCount = (postId, itemId, isChecked) => {
@@ -443,7 +443,6 @@ function FindFilter() {
     navigate(`/postpage`, { state: { postId: `${post.postId}` } });
   };
 
-  // if (Array.isArray(filteredPosts)) {
   const postItems = filteredPosts.map((post) => (
     <PostList key={post.postId}>
       <PostListItem>
@@ -488,9 +487,6 @@ function FindFilter() {
       </PostListItem>
     </PostList>
   ));
-  // } else {
-  //   console.error("filteredPosts is not an array!");
-  // }
 
   const handleFabClick = () => {
     console.log("Floating Action Button clicked");

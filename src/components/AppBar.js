@@ -30,7 +30,9 @@ function AppBar() {
 
   return (
     <AppBarComponent>
-      <p>checkmate</p>
+      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+        <p>checkmate</p>
+      </Link>
       <IconWrapper>
         <Link to="/mypage">
           <IconImg src={mypage} alt="mypage" />

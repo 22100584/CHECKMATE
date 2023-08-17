@@ -37,12 +37,28 @@ function Loginpage() {
     transform: translateX(-50%);
   `;
 
+  const ColumnBase = styled.div`
+  height: 100vh;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // 가운데 정렬을 위해 추가한 속성
+
+  `;
+
+const LoginCheckImage = styled.img`
+margin-bottom: 100px; // 상하 간격 조정을 위해 추가 (원하시는 값으로 조절하세요)
+`;
+
   return (
     <>
       <BackgroundImage />
       <PostPage>
-        
-        <KakaoAuth></KakaoAuth>
+        <ColumnBase>
+        <LoginCheckImage src={loginCheck} alt="로그인 체크 이미지" />
+        <KakaoAuth />
+        </ColumnBase>
+      
       </PostPage>
     </>
   );
