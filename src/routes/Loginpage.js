@@ -4,7 +4,6 @@ import AppBar from "../components/AppBar";
 import BackImage from "../assets/images/background.jpeg";
 import DetailPost from "../components/DetailPost";
 import { useLocation } from "react-router-dom";
-import KakaoLoginButton from "../components/KakaoLoginButton";
 import KakaoAuth from "../components/KakaoAuth";
 
 function Loginpage() {
