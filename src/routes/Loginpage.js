@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import AppBar from "../components/AppBar";
 import BackImage from "../assets/images/background.jpeg";
-import DetailPost from "../components/DetailPost";
 import { useLocation } from "react-router-dom";
 import KakaoAuth from "../components/KakaoAuth";
+import loginCheck from "../assets/images/login.png";
 
 function Loginpage() {
   const BackgroundImage = styled.div`
@@ -42,8 +41,7 @@ function Loginpage() {
     <>
       <BackgroundImage />
       <PostPage>
-        <AppBar />
-        {/* <DetailPost Id={userInfo.postId} /> */}
+        
         <KakaoAuth></KakaoAuth>
       </PostPage>
     </>

@@ -1,4 +1,6 @@
 import React from "react";
+import KakaoLogin from "../assets/images/kakao_login_large_wide.png";
+import styled from "styled-components";
 
 function KakaoAuth() {
   const handleKakaoLogin = () => {
@@ -11,7 +13,16 @@ function KakaoAuth() {
     window.location.href = kakaoAuthUrl;
   };
 
-  return <button onClick={handleKakaoLogin}>Login with Kakao</button>;
+  const Kakaoimg = styled.img`
+
+    width:80%;
+  `;
+
+  return (
+     
+      <Kakaoimg src={KakaoLogin} alt="카카오 로그인" onClick={handleKakaoLogin} />
+   
+  );
 }
 
 export default KakaoAuth;

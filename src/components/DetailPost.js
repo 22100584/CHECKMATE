@@ -329,10 +329,7 @@ const renderItemsByCategory = (items, post) => {
   };
   
 
-const handleFirstLineClick = (post) => (e) => {
- 
-  navigate(`postpage`, { state: { post: post } });
-};
+
 const handleTogetherClick = (post) => (e) => {
   console.log("Post ID:", post.postId);
   console.log("User ID:", userID);
@@ -348,7 +345,7 @@ const handleGetClick = (post) => (e) => {
   <PostList key={post.postId}>
     <PostListItem>
     <FirstLine  >
-      <PostInfo onClick={handleFirstLineClick(post)}
+      <PostInfo 
         style={{ cursor: 'pointer' }}>
       <p className="title">{post.title}</p>
       <HashTags>

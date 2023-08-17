@@ -7,6 +7,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate } from 'react-router-dom';
 
+
 const userID=1;
 
 const DeleteIconWrapper = styled.div`
@@ -368,7 +369,7 @@ function MyPost() {
 
     const handleFirstLineClick = (post) => (e) => {
       console.log(post);
-      navigate(`editmypage`, { state: { postId: `${post.postId}` } });
+      navigate(`/editmypage`, { state: { postId: `${post.postId}` } });
       };
     
       const updateCount = (postId, itemId, isChecked) => {
@@ -431,6 +432,17 @@ function MyPost() {
         console.log("userID: " + userID);
         console.log("postId: " + postId);
       };
+
+      const handleDetailPost = ({ userData }) => {
+        console.log(userData);
+        navigate('/followpage', {
+          state: {
+            nickname: `${userData.user.nickname}`,
+            
+          },
+        });
+      };
+    
     
     const postItems_get = posts.map((post) => (
      
@@ -585,7 +597,7 @@ function MyPost() {
     }
 
    
-      
+ 
 
   return (
     <MyPostComponent>
@@ -597,14 +609,18 @@ function MyPost() {
         <UserProfile src={ProfileImage} alt="프로필사진" onClick={handleClick} />
       )}
       <input type="file" ref={inputRef} onChange={onChangeImage} style={{ display: 'none' }} />
-        
-        <MyNameFollow>
+      
+        <MyNameFollow onClick={() => handleDetailPost({ userData })}>
           <p className='margin-bottom'>{userData.user.nickname}</p>
-          <MyFollow>
-            <p className='margin'>팔로워 {userData.user.follower}명 </p>
-            <p className='margin-second'> 팔로잉 {userData.user.following}명</p>
-          </MyFollow>
+          
+          
+           <MyFollow>
+    <p className='margin'>팔로워 {userData.user.follower}명 </p>
+    <p className='margin-second'> 팔로잉 {userData.user.following}명</p>
+  </MyFollow>
+        
         </MyNameFollow>
+        
       </MyInfo>
       <FilterPost>
         <Tab
