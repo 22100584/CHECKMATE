@@ -242,6 +242,15 @@ function FindFilter() {
 
   const handleFilterScope = (index) => {
     setScope(index);
+    if (scope == 1) {
+    } else if (scope == 2) {
+      readPostsByGet().then((res) => {
+        setPosts(res);
+        // console.log(res);
+      });
+    } else {
+    }
+
     console.log(scope);
     handleFilterClose();
   };
@@ -255,9 +264,9 @@ function FindFilter() {
   };
 
   useEffect(() => {
-    console.log(postData.post);
+    // console.log(postData.post);
     readPostsByGet().then((res) => {
-      // setPosts(res);
+      setPosts(res);
       console.log(res);
     });
     // setPosts(postData.post);
@@ -429,9 +438,11 @@ function FindFilter() {
           >
             <p className="title">{post.title}</p>
             <HashTags>
-              {post.hastags.map((hashtag, index) => (
-                <span key={index}>#{hashtag}</span>
-              ))}
+              {post.hashtags?.length > 0
+                ? post.hashtags.map((hashtag, index) => (
+                    <span key={index}>#{hashtag}</span>
+                  ))
+                : null}
             </HashTags>
           </PostInfo>
           <IconsContainer>
