@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
 
 
 const user_name = "김예지";
@@ -256,12 +256,13 @@ margin-bottom: 10px;
 const Hashtag = styled.div`
   background-color: #BC66FF; // 원하는 배경색으로 수정하세요.
   border-radius: 12px; // 원하는 border-radius 값을 설정하세요.
-  padding: 4px 8px; // 패딩 값을 바꾸면 원하는 간격으로 수정할 수 있습니다.
+  padding: 4px 6px; // 패딩 값을 바꾸면 원하는 간격으로 수정할 수 있습니다.
   color: #fff;
   font-size: 10px;
   display: flex;
   align-items: center;
   gap: 5px;
+  
   button {
     display: flex;
     justify-content: center;
@@ -278,6 +279,56 @@ const Hashtag = styled.div`
   }
 `;
 
+const ModalOverlay = styled.div`
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+font-family: "Pretendard";
+  max-width: 400px; 
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+`;
+const ModalRowbtns = styled.div`
+
+  display: flex;
+  flex-direction: row;
+gap:20px;
+justify-content: center;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #BC66FF;
+    border-radius: 20px;
+    width: 60px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    font-size: 15px;
+    font-family: "Pretendard";
+    color: #000;
+    cursor: pointer;
+  }
+
+
+  `;
+
+
+
 
 function AddPost() {
     const [title, setTitle] = useState("");
@@ -288,6 +339,7 @@ function AddPost() {
     const [newCategoryWith, setNewCategoryWith]=useState("");
     const [showCategoryInput, setShowCategoryInput] = useState(false);
     const [newItemContent, setNewItemContent] = useState({});
+    const [showModal, setShowModal] = useState(false);
 
     const uncategorized = ""; // 카테고리가 없는 경우를 위한 이름(예: 기타)
     const getDate = () => {
@@ -320,12 +372,24 @@ function AddPost() {
       console.log(hashtags);
     }, [hashtags]);
 
+
+
     const handleSave = () => {
   if (!title.trim()) {
     alert("제목을 입력해주세요.");
     return;
   }
 
+  
+  setShowModal(true);
+};
+
+const closeModal = () => {
+  setShowModal(false);
+  
+};
+
+const saveAndClose = () => {
   const post = {
     userId: 1,     // 여기에 실제 로그인 된 유저의 ID를 할당해주세요.
     postId: Date.now(),
@@ -335,15 +399,11 @@ function AddPost() {
     items: items.map(item => {
       delete item.itemId;
       return item;
-    }),
-   
-
-  };
-
+    })};
   console.log(post);
-  // 저장 작업을 처리하는 API를 호출하고, 성공 시 이동할 페이지에 대한 로직을 이곳에 추가하세요.
+  closeModal();
+  
 };
-
     
     const handleAddItemWithCategory = () => {
         if (!newCategory || !newCategoryWith) return;
@@ -580,6 +640,21 @@ const handleKeyPress = (e, category) => {
 
 
 <FloatingActionButton onClick={() => setShowCategoryInput(!showCategoryInput)}>카테고리 추가</FloatingActionButton>
+
+{showModal && (
+      <ModalOverlay>
+        <ModalContent>
+          <h3>저장하시겠습니까?</h3>
+          <ModalRowbtns>
+            <button onClick={closeModal}>취소</button>
+            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <button onClick={()=>saveAndClose()}>확인</button>
+     
+      </Link>
+          </ModalRowbtns>
+        </ModalContent>
+      </ModalOverlay>
+    )}
 
       </AddPostComponent>
     );

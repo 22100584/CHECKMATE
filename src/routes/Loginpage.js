@@ -9,7 +9,7 @@ function Loginpage() {
   const BackgroundImage = styled.div`
     width: 100%;
     height: 100%;
-    background-image: url(${BackImage});
+    background: #A1A1A1;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;

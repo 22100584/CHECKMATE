@@ -6,7 +6,18 @@ import AppBar from "../components/AppBar";
 import AddPost from "../components/AddPost";
 
 function AddPostPage() {
- 
+  const BackgroundImage = styled.div`
+  width: 100%;
+  height: 100%;
+  background: #A1A1A1;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+`; 
 
   const AddPostPage = styled.div`
     @font-face {
@@ -23,12 +34,14 @@ function AddPostPage() {
     transform: translateX(-50%);
   `;
   
-  return (
-
+  return (<>
+  <BackgroundImage></BackgroundImage>
       <AddPostPage>
        <AppBar />
        <AddPost />
       </AddPostPage>
+  </>
+
   );
 }
 
