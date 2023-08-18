@@ -19,19 +19,17 @@ export const increaseCheck = async (itemId) => {
   return response;
 };
 
-export const decreaseCheck = async (itemId) => {
+export const changeCheckCount = async (data) => {
   // 체크리스트 항목 카운트 감속
-  const TOKEN = localStorage.getItem("accessToken");
+  // const TOKEN = localStorage.getItem("accessToken");
 
   const response = await axios.patch(
-    `${process.env.REACT_APP_BACK_BASE_URL}/api/item/decrease-count`,
+    `${process.env.REACT_APP_BACK_BASE_URL}/api/item/adjust-count`,
+    data,
     {
-      itemId,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
+      // headers: {
+      //   Authorization: `Bearer ${TOKEN}`,
+      // },
       withCredentials: true,
     }
   );

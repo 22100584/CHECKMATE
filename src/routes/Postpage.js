@@ -23,7 +23,7 @@ function PostPage() {
 
 const location = useLocation();
 const userInfo = { ...location.state };
-console.log(userInfo);
+console.log("userInfo",userInfo);
   const PostPage = styled.div`
     @font-face {
       font-family: 'Pretendard-Regular';
