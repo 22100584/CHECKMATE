@@ -173,30 +173,35 @@ const Category = styled.div`
   padding-left: 5px;
 `;
 
-function DetailPost({ Id }) {
-  const findPostById = (postId) => {
-    const post = postData.post.find((post) => post.postId === postId);
-    return post;
-  };
-
-  const parsedId = parseInt(Id, 10); // ID 값이 Intdu
-  const postWithId = findPostById(parsedId);
-
-  const navigate = useNavigate();
+// function DetailPost({ Id }) {
+  function DetailPost({Id}) {
 
   const [posts, setPosts] = useState([]); // 초기값 변경
 
+  
+    
+
+
+
   useEffect(() => {
-    setPosts([postWithId]); // 배열로 전달
-
-    console.log(postWithId);
-
-    readPostDetail(Id).then((res) => {
-      setPosts(res);
-      // console.log(res);
-    });
-  }, [postWithId]);
-
+    let id = parseInt(Id, 10);
+    console.log(id);
+    if(id) {
+   readPostDetail(id).then((res) => {
+    if(res){
+      setPosts(res)};
+    }).catch((error) => {console.log("error 발생 " + error )});
+  }
+  
+ 
+  }, [Id]);
+  
+  
+  useEffect(()=>{
+    console.log(" dkhl");
+    console.log(posts);
+  },[posts])
+  
   const updateCount = (postId, itemId, isChecked) => {
     setPosts((prevPosts) => {
       const updatedPosts = prevPosts.map((post) => {
@@ -312,40 +317,42 @@ function DetailPost({ Id }) {
     console.log("User ID:", userID);
   };
 
-  const postItems = posts.map((post) => (
-    <PostList key={post.postId}>
+  const postItems = ()=>{
+    return (<>
+    <PostList key={posts.Id}>
       <PostListItem>
         <FirstLine>
           <PostInfo style={{ cursor: "pointer" }}>
-            <p className="title">{post.title}</p>
+            <p className="title">{posts.title}</p>
             <HashTags>
-              {post.hastags.map((hashtag, index) => (
+              {posts?.hashtags.map((hashtag, index) => (
                 <span key={index}>#{hashtag}</span>
               ))}
             </HashTags>
           </PostInfo>
           <IconsContainer>
             <IconWrapper>
-              <Icon src={Together} onClick={handleTogetherClick(post)} />
-              <IconCount>{post.together}</IconCount>
+              <Icon src={Together} onClick={handleTogetherClick(posts)} />
+              <IconCount>{posts.together}</IconCount>
             </IconWrapper>
             <IconWrapper>
-              <Icon src={Get} onClick={handleGetClick(post)} />
-              <IconCount>{post.get}</IconCount>
+              <Icon src={Get} onClick={handleGetClick(posts)} />
+              <IconCount>{posts.get}</IconCount>
             </IconWrapper>
           </IconsContainer>
         </FirstLine>
 
         <DateWriterInfo>
-          <p>{post.writer}</p>
-          <p className="date"> {post.date}</p>
+          <p>{posts.writer}</p>
+          <p className="date"> {posts.date}</p>
         </DateWriterInfo>
 
         <Divider />
-        <CheckList>{renderItemsByCategory(post.items, post)}</CheckList>
+        <CheckList>{renderItemsByCategory(posts.items, posts)}</CheckList>
       </PostListItem>
     </PostList>
-  ));
+    </>);
+  };
 
   return (
     <>

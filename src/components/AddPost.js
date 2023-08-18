@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import { addPost } from "../apis/post";
-import { useHistory, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const user_name = "김예지";
 
@@ -242,14 +244,15 @@ const Label = styled.label`
 `;
 
 const Hashtag = styled.div`
-  background-color: #BC66FF; // 원하는 배경색으로 수정하세요.
+  background-color: #bc66ff; // 원하는 배경색으로 수정하세요.
   border-radius: 12px; // 원하는 border-radius 값을 설정하세요.
-  padding: 4px 8px; // 패딩 값을 바꾸면 원하는 간격으로 수정할 수 있습니다.
+  padding: 4px 6px; // 패딩 값을 바꾸면 원하는 간격으로 수정할 수 있습니다.
   color: #fff;
   font-size: 10px;
   display: flex;
   align-items: center;
   gap: 5px;
+
   button {
     display: flex;
     justify-content: center;
@@ -261,11 +264,57 @@ const Hashtag = styled.div`
     padding: 0;
     border: none;
     font-size: 10px;
-    color: #BC66FF;
+    color: #bc66ff;
     cursor: pointer;
   }
 `;
 
+const ModalOverlay = styled.div`
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+  font-family: "Pretendard";
+  max-width: 400px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+`;
+const ModalRowbtns = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #bc66ff;
+    border-radius: 20px;
+    width: 60px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    font-size: 15px;
+    font-family: "Pretendard";
+    color: #000;
+    cursor: pointer;
+  }
+`;
 
 function AddPost() {
   const [title, setTitle] = useState("");
@@ -276,9 +325,10 @@ function AddPost() {
   const [newCategoryWith, setNewCategoryWith] = useState("");
   const [showCategoryInput, setShowCategoryInput] = useState(false);
   const [newItemContent, setNewItemContent] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
-    const uncategorized = ""; // 카테고리가 없는 경우를 위한 이름(예: 기타)
-    const getDate = () => {
+  const uncategorized = ""; // 카테고리가 없는 경우를 위한 이름(예: 기타)
+  const getDate = () => {
     const date = new Date();
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -310,14 +360,20 @@ function AddPost() {
     console.log(hashtags);
   }, [hashtags]);
 
-  const navigate = useNavigate();
   const handleSave = () => {
     if (!title.trim()) {
       alert("제목을 입력해주세요.");
-
       return;
     }
 
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const saveAndClose = () => {
     const post = {
       userId: 1, // 여기에 실제 로그인 된 유저의 ID를 할당해주세요.
       postId: Date.now(),
@@ -329,16 +385,18 @@ function AddPost() {
         return item;
       }),
     };
-
     addPost(post).then((res) => {
       // setPosts(res);
       console.log(res);
       navigate("/");
     });
     console.log(post);
-
-    // 저장 작업을 처리하는 API를 호출하고, 성공 시 이동할 페이지에 대한 로직을 이곳에 추가하세요.
+    closeModal();
   };
+
+  const navigate = useNavigate();
+
+  // 저장 작업을 처리하는 API를 호출하고, 성공 시 이동할 페이지에 대한 로직을 이곳에 추가하세요.
 
   const handleAddItemWithCategory = () => {
     if (!newCategory || !newCategoryWith) return;
@@ -408,9 +466,7 @@ function AddPost() {
     setHashtags(newHashtags);
   };
 
-
-
-    const renderItemsByCategory = (items) => {
+  const renderItemsByCategory = (items) => {
     // 카테고리별 항목 그룹화
     const itemsByCategory = items.reduce((acc, item) => {
       const category = item.category || uncategorized; // 없는 경우 '기타'로 설정
@@ -422,11 +478,11 @@ function AddPost() {
     }, {});
 
     const categoriesToRender = [...Object.entries(itemsByCategory)]
-    .filter(([category]) => category !== uncategorized)
-    .sort((a, b) => a[0].localeCompare(b[0]));
-  if (itemsByCategory[uncategorized]) {
-    categoriesToRender.push([uncategorized, itemsByCategory[uncategorized]]);
-  }
+      .filter(([category]) => category !== uncategorized)
+      .sort((a, b) => a[0].localeCompare(b[0]));
+    if (itemsByCategory[uncategorized]) {
+      categoriesToRender.push([uncategorized, itemsByCategory[uncategorized]]);
+    }
 
     // 카테고리별 항목 렌더링
     return categoriesToRender.map(([category, items]) => (
@@ -447,68 +503,100 @@ function AddPost() {
             <p className="content">{item.content}</p>
           </Content>
         ))}
-       {(category!=="") &&(<InputContainer>
-            <svg className="margin" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
-            <circle cx="7.5" cy="7.5" r="7" stroke="#121212"/>
+        {category !== "" && (
+          <InputContainer>
+            <svg
+              className="margin"
+              xmlns="http://www.w3.org/2000/svg"
+              width="17"
+              height="17"
+              viewBox="0 0 15 15"
+              fill="none"
+            >
+              <circle cx="7.5" cy="7.5" r="7" stroke="#121212" />
             </svg>
 
             <AddItemInput
-                type="text"
-                value={newItemContent[category] || "  "}
-                onChange={(e) => handleInputChange(e, category)}
-                onKeyPress={(e) => handleKeyPress(e, category)}
-                placeholder="입력하세요"
+              type="text"
+              value={newItemContent[category] || "  "}
+              onChange={(e) => handleInputChange(e, category)}
+              onKeyPress={(e) => handleKeyPress(e, category)}
+              placeholder="입력하세요"
             />
-            <AddButton onClick={() => handleAddItem(category)}><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 17 17" fill="none">
-<line x1="8.54897" y1="3.54166" x2="8.54897" y2="13.4583" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
-<line x1="13.4583" y1="8.54907" x2="3.54158" y2="8.54907" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
-<circle cx="8.5" cy="8.5" r="7.9" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
-</svg></AddButton>
-        </InputContainer>)}
-
-
-        
+            <AddButton onClick={() => handleAddItem(category)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 17 17"
+                fill="none"
+              >
+                <line
+                  x1="8.54897"
+                  y1="3.54166"
+                  x2="8.54897"
+                  y2="13.4583"
+                  stroke="black"
+                  stroke-width="1.2"
+                  stroke-linejoin="round"
+                />
+                <line
+                  x1="13.4583"
+                  y1="8.54907"
+                  x2="3.54158"
+                  y2="8.54907"
+                  stroke="black"
+                  stroke-width="1.2"
+                  stroke-linejoin="round"
+                />
+                <circle
+                  cx="8.5"
+                  cy="8.5"
+                  r="7.9"
+                  stroke="black"
+                  stroke-width="1.2"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </AddButton>
+          </InputContainer>
+        )}
       </div>
-      
     ));
   };
 
-   
-  
-    return (
-      <AddPostComponent>
-        <FirstLine>
-          <PostInfo>
-            <input
-              className="title"
-              type="text"
-              placeholder="제목"
-              value={title}
-              onChange={onTitleChange}
-            />
-            <HashtagsContainer>
-            {
-  hashtags.map((hashtag, index) => (
-    <Hashtag key={index}>
-    #{hashtag}
-    <button  onClick={() => onHashtagDelete(index)}>X</button>
-  </Hashtag>
-  ))
-}
-              {hashtags.length < 5 && (
+  return (
+    <AddPostComponent>
+      <FirstLine>
+        <PostInfo>
           <input
-            className="hashtag"
+            className="title"
             type="text"
-            placeholder="#해쉬태그 입력 후 Enter"
-            value={hashtagInput}
-            onChange={onHashtagChange}
-            onKeyDown={onHashtagKeyDown}
+            placeholder="제목"
+            value={title}
+            onChange={onTitleChange}
           />
-        )}
-            </HashtagsContainer>
-          </PostInfo>
-          <SaveButton onClick={handleSave}>저장하기</SaveButton>
-        </FirstLine>
+          <HashtagsContainer>
+            {hashtags.map((hashtag, index) => (
+              <Hashtag key={index}>
+                #{hashtag}
+                <button onClick={() => onHashtagDelete(index)}>X</button>
+              </Hashtag>
+            ))}
+            {hashtags.length < 5 && (
+              <input
+                className="hashtag"
+                type="text"
+                placeholder="#해쉬태그 입력 후 Enter"
+                value={hashtagInput}
+                onChange={onHashtagChange}
+                onKeyDown={onHashtagKeyDown}
+              />
+            )}
+          </HashtagsContainer>
+        </PostInfo>
+        <SaveButton onClick={handleSave}>저장하기</SaveButton>
+      </FirstLine>
 
       <DateWriterInfo>
         <p>{user_name}</p>
@@ -520,62 +608,146 @@ function AddPost() {
       <CheckList>
         {renderItemsByCategory(items)}
         {showCategoryInput && (
-        <CategoryInputContainer>
-          <AddCategoryInput
-            type="text"
-            value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value)}
-            onKeyPress={(e) => handleKeyEnter(e)}
-            placeholder="새로운 카테고리"
-          />
-          <InputContainer>          
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <circle cx="7.5" cy="7.5" r="7" stroke="#121212"/>
-            </svg>
-            <AddItemInput
-              type="text" 
-              value={newCategoryWith}
-              onChange={(e) => setNewCategoryWith(e.target.value)}
+          <CategoryInputContainer>
+            <AddCategoryInput
+              type="text"
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
               onKeyPress={(e) => handleKeyEnter(e)}
-              placeholder="새로운 항목"
+              placeholder="새로운 카테고리"
             />
-             <AddButton onClick={handleAddItemWithCategory}><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
-<line x1="8.54897" y1="3.54166" x2="8.54897" y2="13.4583" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
-<line x1="13.4583" y1="8.54907" x2="3.54158" y2="8.54907" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
-<circle cx="8.5" cy="8.5" r="7.9" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
-</svg></AddButton> 
-</InputContainer>
-   </CategoryInputContainer>)}
-        <InputContainer>
-        <svg className="margin" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 15 15" fill="none">
-            <circle cx="7.5" cy="7.5" r="7" stroke="#121212"/>
-            </svg>
-            <AddItemInput
+            <InputContainer>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
+                fill="none"
+              >
+                <circle cx="7.5" cy="7.5" r="7" stroke="#121212" />
+              </svg>
+              <AddItemInput
                 type="text"
-                value={newItemContent[""] || ""}
-                onChange={(e) => handleInputChange(e, "")}
-                onKeyPress={(e) => handleKeyPress(e, "")}
-                placeholder="입력하세요"
-            />
-            <AddButton onClick={() => handleAddItem("")}><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 17 17" fill="none">
-<line x1="8.54897" y1="3.54166" x2="8.54897" y2="13.4583" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
-<line x1="13.4583" y1="8.54907" x2="3.54158" y2="8.54907" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
-<circle cx="8.5" cy="8.5" r="7.9" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
-</svg></AddButton>
+                value={newCategoryWith}
+                onChange={(e) => setNewCategoryWith(e.target.value)}
+                onKeyPress={(e) => handleKeyEnter(e)}
+                placeholder="새로운 항목"
+              />
+              <AddButton onClick={handleAddItemWithCategory}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="17"
+                  height="17"
+                  viewBox="0 0 17 17"
+                  fill="none"
+                >
+                  <line
+                    x1="8.54897"
+                    y1="3.54166"
+                    x2="8.54897"
+                    y2="13.4583"
+                    stroke="black"
+                    stroke-width="1.2"
+                    stroke-linejoin="round"
+                  />
+                  <line
+                    x1="13.4583"
+                    y1="8.54907"
+                    x2="3.54158"
+                    y2="8.54907"
+                    stroke="black"
+                    stroke-width="1.2"
+                    stroke-linejoin="round"
+                  />
+                  <circle
+                    cx="8.5"
+                    cy="8.5"
+                    r="7.9"
+                    stroke="black"
+                    stroke-width="1.2"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </AddButton>
+            </InputContainer>
+          </CategoryInputContainer>
+        )}
+        <InputContainer>
+          <svg
+            className="margin"
+            xmlns="http://www.w3.org/2000/svg"
+            width="17"
+            height="17"
+            viewBox="0 0 15 15"
+            fill="none"
+          >
+            <circle cx="7.5" cy="7.5" r="7" stroke="#121212" />
+          </svg>
+          <AddItemInput
+            type="text"
+            value={newItemContent[""] || ""}
+            onChange={(e) => handleInputChange(e, "")}
+            onKeyPress={(e) => handleKeyPress(e, "")}
+            placeholder="입력하세요"
+          />
+          <AddButton onClick={() => handleAddItem("")}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 17 17"
+              fill="none"
+            >
+              <line
+                x1="8.54897"
+                y1="3.54166"
+                x2="8.54897"
+                y2="13.4583"
+                stroke="black"
+                stroke-width="1.2"
+                stroke-linejoin="round"
+              />
+              <line
+                x1="13.4583"
+                y1="8.54907"
+                x2="3.54158"
+                y2="8.54907"
+                stroke="black"
+                stroke-width="1.2"
+                stroke-linejoin="round"
+              />
+              <circle
+                cx="8.5"
+                cy="8.5"
+                r="7.9"
+                stroke="black"
+                stroke-width="1.2"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </AddButton>
         </InputContainer>
-
-
-
-
-        </CheckList>
-       
-        
+      </CheckList>
 
       <FloatingActionButton
         onClick={() => setShowCategoryInput(!showCategoryInput)}
       >
         카테고리 추가
       </FloatingActionButton>
+
+      {showModal && (
+        <ModalOverlay>
+          <ModalContent>
+            <h3>저장하시겠습니까?</h3>
+            <ModalRowbtns>
+              <button onClick={closeModal}>취소</button>
+              <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+                <button onClick={() => saveAndClose()}>확인</button>
+              </Link>
+            </ModalRowbtns>
+          </ModalContent>
+        </ModalOverlay>
+      )}
     </AddPostComponent>
   );
 }

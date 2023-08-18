@@ -11,6 +11,53 @@ import { deletePost } from "../apis/post";
 
 const userID = 1;
 
+const ModalOverlay = styled.div`
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+  font-family: "Pretendard";
+  max-width: 400px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+`;
+const ModalRowbtns = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #bc66ff;
+    border-radius: 20px;
+    width: 60px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    font-size: 15px;
+    font-family: "Pretendard";
+    color: #000;
+    cursor: pointer;
+  }
+`;
+
 const DeleteIconWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -307,6 +354,10 @@ function MyPost() {
   const [user, setUser] = useState([]);
   const [uploadedImage, setUploadedImage] = React.useState(null);
   const inputRef = useRef();
+  const [showModal, setShowModal] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+  const [postID, setPostID] = useState();
 
   const onChangeImage = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -409,6 +460,21 @@ function MyPost() {
     // }).then((res) => {});
     console.log("userID: " + userID);
     console.log("postId: " + postId);
+    setPostID(postId);
+    setShowModal(true);
+  };
+
+  const handleTogetherClick = (postId) => {
+    console.log("userID: " + userID);
+    console.log("postId: " + postId);
+    setPostID(postId);
+    setShowModal1(true);
+  };
+  const handleGetClick = (postId) => {
+    console.log("userID: " + userID);
+    console.log("postId: " + postId);
+    setPostID(postId);
+    setShowModal2(true);
   };
 
   const handleDetailPost = ({ userData }) => {
@@ -449,7 +515,7 @@ function MyPost() {
               />
             </svg>
           </DeleteIconWrapper>
-          <IconWrapper>
+          <IconWrapper onClick={() => handleTogetherClick(post.postId)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -464,7 +530,7 @@ function MyPost() {
             </svg>
             <IconCount>{post.together}</IconCount>
           </IconWrapper>
-          <IconWrapper>
+          <IconWrapper onClick={() => handleGetClick(post.postId)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -617,6 +683,32 @@ function MyPost() {
     );
   }
 
+  const deletecloseModal = () => {
+    setShowModal(false);
+  };
+
+  const deleteAndClose = () => {
+    console.log(postID);
+    deletecloseModal();
+  };
+
+  const togethercloseModal = () => {
+    setShowModal1(false);
+  };
+
+  const togetherAndClose = () => {
+    console.log(postID);
+    togethercloseModal();
+  };
+  const getcloseModal = () => {
+    setShowModal2(false);
+  };
+
+  const getAndClose = () => {
+    console.log(postID);
+    getcloseModal();
+  };
+
   return (
     <MyPostComponent>
       <MyInfo>
@@ -666,6 +758,40 @@ function MyPost() {
         postItems_get={postItems_get}
         postItems_together={postItems_together}
       />
+
+      {showModal && (
+        <ModalOverlay>
+          <ModalContent>
+            <h3>삭제하시겠습니까?</h3>
+            <ModalRowbtns>
+              <button onClick={deletecloseModal}>취소</button>
+              <button onClick={() => deleteAndClose(postID)}>확인</button>
+            </ModalRowbtns>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+      {showModal1 && (
+        <ModalOverlay>
+          <ModalContent>
+            <h3>함께하시겠습니까?</h3>
+            <ModalRowbtns>
+              <button onClick={togethercloseModal}>취소</button>
+              <button onClick={() => togetherAndClose(postID)}>확인</button>
+            </ModalRowbtns>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+      {showModal2 && (
+        <ModalOverlay>
+          <ModalContent>
+            <h3>가져오시겠습니까?</h3>
+            <ModalRowbtns>
+              <button onClick={getcloseModal}>취소</button>
+              <button onClick={() => getAndClose(postID)}>확인</button>
+            </ModalRowbtns>
+          </ModalContent>
+        </ModalOverlay>
+      )}
     </MyPostComponent>
   );
 }

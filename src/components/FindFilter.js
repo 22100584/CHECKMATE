@@ -14,6 +14,44 @@ import { changeCheckCount } from "../apis/item";
 
 const userID = 1;
 
+
+const StyledCheckbox = styled.input`
+      appearance: none;
+      background: #ffffff;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid #000;
+      outline: none;
+      transition: all 0.2s ease-out;
+
+      &:checked {
+        background-color: #000;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      &:checked:after {
+        content: "\\2713"; // 체크 표시 (유니코드)
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+      }
+    `;
+
+    const Label = styled.label`
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 30px;
+    `;
 const FloatingActionButton = styled.button`
   position: fixed;
   bottom: 10vh;
@@ -54,7 +92,7 @@ const PostListItem = styled.div`
   margin-bottom: 10px;
   padding: 18px;
   box-sizing: border-box;
-  width: 355px;
+  width: 335px;
   height: auto;
   flex-shrink: 0;
   border: 1px solid #1f1f1f;
@@ -227,6 +265,20 @@ const FindFilterComponent = styled.div`
   }
 `;
 
+const CarouselContainer = styled.div`
+    width: 100%;
+    box-sizing: border-box;
+  `;
+
+  const CarouselPage = styled.div`
+    display: flex;
+    flex-direction: column;
+  `;
+const DialogStyles = {
+  position: "absolute",
+  top: "calc(0% - 430px)",
+  left: "calc(50% - 160px)",
+};
 function FindFilter() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
@@ -236,11 +288,7 @@ function FindFilter() {
   const [scope, setScope] = useState(1);
   const [currentCheck, setCurrentCheck] = useState([]);
 
-  const DialogStyles = {
-    position: "absolute",
-    top: "calc(0% - 430px)",
-    left: "calc(50% - 160px)",
-  };
+  
 
   const handleFilterScope = (index) => {
     setScope(index);
@@ -342,43 +390,7 @@ function FindFilter() {
     });
   };
   const Checkbox = ({ content, itemId, updateCount, count, post, postId }) => {
-    const StyledCheckbox = styled.input`
-      appearance: none;
-      background: #ffffff;
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 1px solid #000;
-      outline: none;
-      transition: all 0.2s ease-out;
-
-      &:checked {
-        background-color: #000;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
-      }
-
-      &:checked:after {
-        content: "\\2713"; // 체크 표시 (유니코드)
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: black;
-        font-size: 20px;
-        font-weight: bold;
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        background-color: #fff;
-      }
-    `;
-
-    const Label = styled.label`
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding-left: 30px;
-    `;
+    
 
     const item = post.items.find((i) => i.itemId === itemId);
 
@@ -405,15 +417,7 @@ function FindFilter() {
     );
   };
 
-  const CarouselContainer = styled.div`
-    width: 100%;
-    box-sizing: border-box;
-  `;
-
-  const CarouselPage = styled.div`
-    display: flex;
-    flex-direction: column;
-  `;
+  
 
   const renderItems = (items, post) => {
     const chunkSize = 4;
@@ -531,7 +535,7 @@ function FindFilter() {
               x2="6.87217"
               y2="14"
               stroke="black"
-              stroke-width="1.3"
+              strokeWidth="1.3"
             />
             <line
               x1="14"
@@ -539,7 +543,7 @@ function FindFilter() {
               x2="-5.68248e-08"
               y2="6.87217"
               stroke="black"
-              stroke-width="1.3"
+              strokeWidth="1.3"
             />
           </svg>
         </FloatingActionButtonIcon>
