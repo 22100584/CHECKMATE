@@ -515,7 +515,7 @@ function MyPost() {
               />
             </svg>
           </DeleteIconWrapper>
-          <IconWrapper>
+          <IconWrapper onClick={() => handleTogetherClick(post.postId)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -530,7 +530,7 @@ function MyPost() {
             </svg>
             <IconCount>{post.together}</IconCount>
           </IconWrapper>
-          <IconWrapper>
+          <IconWrapper onClick={() => handleGetClick(post.postId)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
