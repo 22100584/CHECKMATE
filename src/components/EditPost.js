@@ -5,9 +5,58 @@ import Get from "../assets/images/u-exit.png";
 import Together from "../assets/images/u-users-alt.png";
 import { useNavigate } from 'react-router-dom';
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 
 const userID = 111;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+font-family: "Pretendard";
+  max-width: 400px; 
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+`;
+const ModalRowbtns = styled.div`
+
+  display: flex;
+  flex-direction: row;
+gap:20px;
+justify-content: center;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #BC66FF;
+    border-radius: 20px;
+    width: 60px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    font-size: 15px;
+    font-family: "Pretendard";
+    color: #000;
+    cursor: pointer;
+  }
+
+
+  `;
 
 const StyledCheckbox = styled.input`
           appearance: none;
@@ -126,16 +175,6 @@ line-height: normal;
     }
   `;
   
-  const IconCount = styled.span`
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.6);
-  `;
-  
-  // 아이콘 이미지를 위치에 맞게 조정하세요
-  const Icon = styled.img`
-    height: 24px;
-    width: 24px;
-  `;
   const DateWriterInfo = styled.div`
     display: flex;
     flex-direction: row;
@@ -257,10 +296,10 @@ function EditPost({Id}) {
     const parsedId = parseInt(Id, 10); // ID 값이 Intdu
     const postWithId = findPostById(parsedId);
   
-  const navigate = useNavigate();
-  
-  const [posts, setPosts] = useState([]); // 초기값 변경
+  const [showModal, setShowModal] = useState(false);
 
+  const [posts, setPosts] = useState([]); // 초기값 변경
+    const [post,setPost]=useState([]);
     useEffect(() => {
       setPosts([postWithId]);  // 배열로 전달
       console.log(postWithId);
@@ -358,7 +397,11 @@ const updateCount = (postId, itemId, isChecked) => {
     
   };
 
-  const handleIconClick = (post) => {
+  const handleIconClick = (posts) => {
+    setShowModal(true);
+   
+      setPost(posts);
+   
     console.log("Clicked Post: ", post);
 };
 
@@ -528,7 +571,17 @@ const AddButton = styled.button`
   padding-right: 20px;
 
 `;
+const closeModal = () => {
+  setShowModal(false);
+  
+};
 
+const saveAndClose = (post) => {
+  console.log(post);
+  
+  closeModal();
+  
+};
 
   const postItems = posts.map((post) => (
   <PostList key={post.postId}>
@@ -550,8 +603,8 @@ const AddButton = styled.button`
 </svg>
           
         </IconWrapper>
-        <IconWrapper>
-            <div className="editFont">Edit</div>
+        <IconWrapper >
+            <div className="editFont"  onClick={() => handleIconClick(post)}>Edit</div>
         </IconWrapper>
      </IconsContainer>
     </FirstLine>
@@ -590,20 +643,36 @@ const AddButton = styled.button`
 <circle cx="8.5" cy="8.5" r="7.9" stroke="black" stroke-width="1.2" stroke-linejoin="round"/>
 </svg></AddButton>
           </InputContainer>
+          
    </CategoryInputContainer>
 )}
-
+ 
     </PostListItem>
   </PostList>
 ));
 
 
 
+
+    
+
   return (
     <>
     <DetailPostComponent>
       <PostList>{postItems}</PostList>
-
+      {showModal && (
+      <ModalOverlay>
+        <ModalContent>
+          <h3>수정하시겠습니까?</h3>
+          <ModalRowbtns>
+            <button onClick={closeModal}>취소</button>
+            <Link to="/mypage" style={{ textDecoration: "none", color: "inherit" }}>
+          <button onClick={()=>saveAndClose(post)}>확인</button>
+      </Link>
+          </ModalRowbtns>
+        </ModalContent>
+      </ModalOverlay>
+    )}
     </DetailPostComponent>
     <FloatingActionButton onClick={() => setShowCategoryInput(true)}>카테고리 추가</FloatingActionButton>
 

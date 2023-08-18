@@ -762,7 +762,7 @@ function MyPost() {
       {showModal && (
         <ModalOverlay>
           <ModalContent>
-            <h3>저장하시겠습니까?</h3>
+            <h3>삭제하시겠습니까?</h3>
             <ModalRowbtns>
               <button onClick={deletecloseModal}>취소</button>
               <button onClick={() => deleteAndClose(postID)}>확인</button>

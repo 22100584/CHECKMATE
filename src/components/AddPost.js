@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { addPost } from "../apis/post";
-import { useHistory, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const user_name = "김예지";
 
