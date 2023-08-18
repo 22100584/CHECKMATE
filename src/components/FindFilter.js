@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { readPostsByGet, readPostsByTime } from "../apis/post";
+import { changeCheckCount } from "../apis/item";
 
 const userID = 1;
 
@@ -233,6 +234,7 @@ function FindFilter() {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [open, setOpen] = useState(false);
   const [scope, setScope] = useState(1);
+  const [currentCheck, setCurrentCheck] = useState([]);
 
   const DialogStyles = {
     position: "absolute",
@@ -281,12 +283,11 @@ function FindFilter() {
 
   const onChange = (event) => {
     setSearch(event.target.value);
-    let searchQuery = event.target.value.trim().toLowerCase().split(' ');
-    if (searchQuery[0] === '') {
+    let searchQuery = event.target.value.trim().toLowerCase().split(" ");
+    if (searchQuery[0] === "") {
       setFilteredPosts(posts);
     } else {
       setFilteredPosts(
-
         posts
           .map((post) => {
             const matchedTagCounts = post.hashtags.filter((hashtag) =>
@@ -316,17 +317,20 @@ function FindFilter() {
             ...post,
             items: post.items.map((item) => {
               if (item.itemId === itemId) {
+                let newCheckArray;
                 if (isChecked) {
-                  return {
-                    ...item,
-                    check: [...item.check, userID],
-                  };
+                  newCheckArray = [...item.check, userID];
                 } else {
-                  return {
-                    ...item,
-                    check: item.check.filter((name) => name !== userID),
-                  };
+                  newCheckArray = item.check.filter((name) => name !== userID);
                 }
+
+                // 현재 처리 중인 check 배열을 상태에 설정
+                setCurrentCheck(newCheckArray);
+
+                return {
+                  ...item,
+                  check: newCheckArray,
+                };
               }
               return item;
             }),
@@ -334,12 +338,9 @@ function FindFilter() {
         }
         return post;
       });
-
-      console.log(updatedPosts); // 변경된 데이터를 콘솔에 출력합니다.
       return updatedPosts;
     });
   };
-
   const Checkbox = ({ content, itemId, updateCount, count, post, postId }) => {
     const StyledCheckbox = styled.input`
       appearance: none;
@@ -386,6 +387,10 @@ function FindFilter() {
     const handleChange = () => {
       const newChecked = !checked;
       updateCount(postId, itemId, newChecked);
+      if (currentCheck) {
+        changeCheckCount({ itemId, postId, currentCheck });
+      }
+
       setChecked(newChecked);
     };
     return (

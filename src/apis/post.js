@@ -72,17 +72,14 @@ export const search = async (keyword) => {
 export const readPostDetail = async (postId) => {
   // 게시글 상세 조회
 
-  const TOKEN = localStorage.getItem("accessToken");
+  // const TOKEN = localStorage.getItem("accessToken");
 
   const response = await axios.get(
-    `${process.env.REACT_APP_BACK_BASE_URL}/api/post`,
+    `${process.env.REACT_APP_BACK_BASE_URL}/api/post/${postId}`,
     {
-      params: { postId },
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
+      // headers: {
+      //   Authorization: `Bearer ${TOKEN}`,
+      // },
       withCredentials: true,
     }
   );
